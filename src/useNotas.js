@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { crearUsuario } from "./getApi";
+import { crearUsuario, editarUsuario } from "./getApi";
 
 const userLoginDefault = {
     "idusuario": 0,
@@ -15,7 +15,7 @@ const useNotas = () => {
     const [user,setUser] = useState();
     const [userLogin, setUserLogin] = useState(userLoginDefault);
     const [isLogged,setIsLogged] = useState(false);
-    const [roles,setRoles] = useState([]);
+    const [isEdit,setIsEdit] = useState(false);
 
     const fechaAcceso = () => {
         const fechaHoraActual = new Date();
@@ -48,7 +48,7 @@ const useNotas = () => {
         localStorage.setItem("userLogueadoNotas", JSON.stringify(userLogin));
     }, [userLogin]);
 
-    const saveUser = (data,reset) => {
+    const saveUser = (data,reset,onClose) => {
         const copyUser = {...data};
         setUser([copyUser]);
         console.log(copyUser);
@@ -66,7 +66,33 @@ const useNotas = () => {
             //setGuardado(false);
         }, 5000);
         reset();
+        onClose();
     }
+
+    const editarUser = (data,reset,idUser,onClose) => {
+        const copyUser = {...data}
+        copyUser.idusuario = idUser;
+        delete copyUser.confirmarPassword;
+        console.log(copyUser)
+        setUser([copyUser]);
+        const userLogueado = localStorage.getItem("userLogueadoNotas");
+        const userLogin = JSON.parse(userLogueado);
+        const { token } = userLogin;
+        console.log(token);
+        editarUsuario(copyUser, token).then(respuesta=>{
+            console.log(JSON.stringify(respuesta));
+        });
+        setIsEdit(false);
+        //setEditado(true);
+        setTimeout(() => {
+            //setEditado(false);
+        }, 5000);
+        reset();
+        onClose();
+        
+    }
+
+
 
     return {
         user,
@@ -79,9 +105,10 @@ const useNotas = () => {
         setUserLogin,
         fechaAcceso,
         salirSesion,
-        roles,
-        setRoles,
-        saveUser
+        saveUser,
+        isEdit,
+        setIsEdit,
+        editarUser
     };
 }
 

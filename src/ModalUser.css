@@ -37,6 +37,11 @@
     background-color: #000;
     color: white;
   }
+
+  .edit-button {
+    background-color: MidnightBlue;
+    color: white;
+  }
   
   .cancel-button {
     background-color: lightslategray;
