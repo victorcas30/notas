@@ -58,9 +58,40 @@ const editarUsuario = async(user,token) => {
     }
 }
 
+const getAlumnos = async(token) => {
+    const headers = {"Authorization":"Bearer "+token};
+    const options = {method:'GET',headers:headers};
+    try{
+        const respuesta = await fetch("http://localhost:8000/api/alumnos",options);
+        const result = await respuesta.json();
+        return result;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+const crearAlumno = async(user,token) => {
+    const headers = {"Content-Type":"application/json","Authorization":"Bearer "+token};
+    const options = {
+        method:'POST',
+        headers:headers,
+        body:JSON.stringify(user)
+    }
+    try{
+        const respuesta = await fetch("http://localhost:8000/api/alumnos",options);
+        const result = await respuesta.json();
+        return result;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+
 export {
     login,
     getUsuarios,
     crearUsuario,
-    editarUsuario
+    editarUsuario,
+    getAlumnos,
+    crearAlumno
 }

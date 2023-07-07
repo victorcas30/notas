@@ -1,4 +1,4 @@
-import "./ModalUser.css";
+import "./Modal.css";
 import { useContext, useEffect, useState } from "react";
 import notasContext from "./notasContext";
 import { useForm } from "react-hook-form";

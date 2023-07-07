@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { crearUsuario, editarUsuario } from "./getApi";
+import { crearUsuario, editarUsuario, crearAlumno } from "./getApi";
 
 const userLoginDefault = {
     "idusuario": 0,
@@ -16,6 +16,8 @@ const useNotas = () => {
     const [userLogin, setUserLogin] = useState(userLoginDefault);
     const [isLogged,setIsLogged] = useState(false);
     const [isEdit,setIsEdit] = useState(false);
+    const [alumnos,setAlumnos] = useState([]);
+    const [alumno,setAlumno] = useState();
 
     const fechaAcceso = () => {
         const fechaHoraActual = new Date();
@@ -92,6 +94,25 @@ const useNotas = () => {
         
     }
 
+    const saveAlumno = (data,reset,onClose) => {
+        const copyAlumno = {...data,eliminado:"0"};
+        setAlumno([copyAlumno]);
+        console.log(copyAlumno);
+        const userLogueado = localStorage.getItem("userLogueadoNotas");
+        const userLogin = JSON.parse(userLogueado);
+        const { token } = userLogin;
+        crearAlumno(copyAlumno, token).then(res=>{
+            console.log(JSON.stringify(res));
+        })
+
+        //setGuardado(true);
+        setTimeout(() => {
+            //setGuardado(false);
+        }, 5000);
+        reset();
+        onClose();
+    }
+
 
 
     return {
@@ -108,7 +129,12 @@ const useNotas = () => {
         saveUser,
         isEdit,
         setIsEdit,
-        editarUser
+        editarUser,
+        alumnos,
+        setAlumnos,
+        alumno,
+        setAlumno,
+        saveAlumno
     };
 }
 

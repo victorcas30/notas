@@ -5,6 +5,7 @@ import Login from "./Login";
 import ConsultarUser from "./ConsultarUser";
 import RutasProtegidas from "./RutasProtegidas";
 import notasContext from "./notasContext";
+import ConsultarAlumnos from "./ConsultarAlumnos";
 
 const Rutas = () => {
     const data = useContext(notasContext);
@@ -18,6 +19,7 @@ const Rutas = () => {
             <Route path="/" element={ <Login/> } />
             <Route element={ <RutasProtegidas isLogged={isLogged} /> }>
                 <Route path="/consultaruser" element={ <ConsultarUser/> } />
+                <Route path="/consultaralumnos" element={ <ConsultarAlumnos/> } />
             </Route>
         </Routes>
         </BrowserRouter>

@@ -22,7 +22,10 @@ const Menu = () =>{
                     <NavLink className={({isActive}) => isActive ? "nav-link isActive" : "nav-link"} to="/">Login</NavLink>
                     </li>
                     <li className="nav-item">
-                    <NavLink className={({isActive}) => isActive ? "nav-link isActive" : "nav-link"} to="/consultaruser">Consultar User</NavLink>
+                    <NavLink className={({isActive}) => isActive ? "nav-link isActive" : "nav-link"} to="/consultaruser">Usuarios</NavLink>
+                    </li>
+                    <li className="nav-item">
+                    <NavLink className={({isActive}) => isActive ? "nav-link isActive" : "nav-link"} to="/consultaralumnos">Alumnos</NavLink>
                     </li>
                 </ul>
                 </div>
