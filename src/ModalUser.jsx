@@ -40,7 +40,7 @@ const ModalUser = ({ isOpen, onClose, userModal }) => {
       <div className="modal-content">
       {isEdit ? <h3 className="bi bi-pencil-square" > Editar User</h3> : <h3 className="bi bi-person-fill-add" > Crear User</h3>}
         <div>
-        <form onSubmit={handleSubmit(isEdit ? data => editarUser(data,reset,onClose) : data => saveUser(data,reset,onClose))}>
+        <form onSubmit={handleSubmit(isEdit ? data => editarUser(data,reset,idUser,onClose) : data => saveUser(data,reset,onClose))}>
             <table className="table table-light table-hover">
             <thead></thead>
             <tbody>

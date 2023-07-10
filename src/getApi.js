@@ -86,6 +86,22 @@ const crearAlumno = async(user,token) => {
     }
 }
 
+const editarAlum = async(user,token) => {
+    const headers = {"Content-Type":"application/json","Authorization":"Bearer "+token};
+    const options = {
+        method:'PUT',
+        headers:headers,
+        body:JSON.stringify(user)
+    }
+    try{
+        const respuesta = await fetch("http://localhost:8000/api/alumnos",options);
+        const result = await respuesta.json();
+        return result;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
 
 export {
     login,
@@ -93,5 +109,6 @@ export {
     crearUsuario,
     editarUsuario,
     getAlumnos,
-    crearAlumno
+    crearAlumno,
+    editarAlum
 }

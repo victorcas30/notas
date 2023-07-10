@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { crearUsuario, editarUsuario, crearAlumno } from "./getApi";
+import { crearUsuario, editarUsuario, crearAlumno, editarAlum } from "./getApi";
 
 const userLoginDefault = {
     "idusuario": 0,
@@ -13,11 +13,13 @@ const userLoginDefault = {
 const useNotas = () => {
     const [users,setUsers] = useState([]);
     const [user,setUser] = useState();
+    const [cambiosUser, setCambiosUser] = useState(false);
     const [userLogin, setUserLogin] = useState(userLoginDefault);
     const [isLogged,setIsLogged] = useState(false);
     const [isEdit,setIsEdit] = useState(false);
     const [alumnos,setAlumnos] = useState([]);
     const [alumno,setAlumno] = useState();
+    const [cambiosAlumno, setCambiosAlumno] = useState(false);
 
     const fechaAcceso = () => {
         const fechaHoraActual = new Date();
@@ -62,7 +64,7 @@ const useNotas = () => {
         crearUsuario(copyUser, token).then(res=>{
             console.log(JSON.stringify(res));
         })
-
+        setCambiosUser(true);
         //setGuardado(true);
         setTimeout(() => {
             //setGuardado(false);
@@ -74,6 +76,7 @@ const useNotas = () => {
     const editarUser = (data,reset,idUser,onClose) => {
         const copyUser = {...data}
         copyUser.idusuario = idUser;
+        console.log(idUser);
         delete copyUser.confirmarPassword;
         console.log(copyUser)
         setUser([copyUser]);
@@ -84,6 +87,7 @@ const useNotas = () => {
         editarUsuario(copyUser, token).then(respuesta=>{
             console.log(JSON.stringify(respuesta));
         });
+        setCambiosUser(true);
         setIsEdit(false);
         //setEditado(true);
         setTimeout(() => {
@@ -91,7 +95,6 @@ const useNotas = () => {
         }, 5000);
         reset();
         onClose();
-        
     }
 
     const saveAlumno = (data,reset,onClose) => {
@@ -104,10 +107,33 @@ const useNotas = () => {
         crearAlumno(copyAlumno, token).then(res=>{
             console.log(JSON.stringify(res));
         })
-
+        setCambiosAlumno(true);
         //setGuardado(true);
         setTimeout(() => {
             //setGuardado(false);
+        }, 5000);
+        reset();
+        onClose();
+    }
+
+    const editarAlumno = (data,reset,idAlum,onClose) => {
+        const copyAlumno = {...data}
+        copyAlumno.idalumno = idAlum;
+        console.log(idAlum);
+        console.log(copyAlumno)
+        setAlumno([copyAlumno]);
+        const userLogueado = localStorage.getItem("userLogueadoNotas");
+        const userLogin = JSON.parse(userLogueado);
+        const { token } = userLogin;
+        console.log(token);
+        editarAlum(copyAlumno, token).then(respuesta=>{
+            console.log(JSON.stringify(respuesta));
+        });
+        setCambiosAlumno(true);
+        setIsEdit(false);
+        //setEditado(true);
+        setTimeout(() => {
+            //setEditado(false);
         }, 5000);
         reset();
         onClose();
@@ -120,6 +146,8 @@ const useNotas = () => {
         setUser,
         users,
         setUsers,
+        cambiosUser, 
+        setCambiosUser,
         isLogged,
         setIsLogged,
         userLogin,
@@ -134,7 +162,10 @@ const useNotas = () => {
         setAlumnos,
         alumno,
         setAlumno,
-        saveAlumno
+        cambiosAlumno, 
+        setCambiosAlumno,
+        saveAlumno,
+        editarAlumno
     };
 }
 

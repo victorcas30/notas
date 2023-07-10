@@ -3,16 +3,31 @@ import { useContext, useEffect, useState } from "react";
 import notasContext from "./notasContext";
 import { useForm } from "react-hook-form";
 
-const ModalAlumnos = ({ isOpen, onClose, userModal }) => {
+const ModalAlumnos = ({ isOpen, onClose, alumnoModal }) => {
     if (!isOpen) return null;
     
     const {register,handleSubmit,formState,watch,reset,setValue } = useForm({ resetOnSubmit: true });
-    const password = watch("password");
     const {errors} = formState;
     const data = useContext(notasContext);
-    const {saveAlumno, isEdit, setIsEdit, editarUser} = data;
-    const [idUser, setIdUser] = useState(0);
-    const [telefono, setTelefono] = useState('');
+    const {saveAlumno, isEdit, setIsEdit, editarAlumno} = data;
+    const [idAlum, setIdAlum] = useState(0);
+    const [telefono, setTelefono] = useState(alumnoModal?.celular || '');
+
+    useEffect(() => {
+        if(isEdit && alumnoModal){
+            const {idalumno, nombres, apellidos, celular, email, eliminado} = alumnoModal;
+            console.log(alumnoModal);
+            setValue("nombres", nombres);
+            setValue("apellidos", apellidos);
+            setValue("celular", celular);
+            setValue("email", email);
+            setValue("eliminado", eliminado);
+            setIdAlum(idalumno);
+            setTelefono(celular);
+        }else{
+            reset();
+        }
+    },[isEdit, alumnoModal, setValue, reset]);
         
     const handleCancelar = () => {
         setIsEdit(false)
@@ -43,7 +58,7 @@ const ModalAlumnos = ({ isOpen, onClose, userModal }) => {
       <div className="modal-content">
       {isEdit ? <h3 className="bi bi-pencil-square" > Editar Alumno</h3> : <h3 className="bi bi-person-fill-add" > Crear Alumno</h3>}
         <div>
-        <form onSubmit={handleSubmit(isEdit ? data => editarUser(data,reset,onClose) : data => saveAlumno(data,reset,onClose))}>
+        <form onSubmit={handleSubmit(isEdit ? data => editarAlumno(data,reset,idAlum,onClose) : data => saveAlumno(data,reset,onClose))}>
             <table className="table table-light table-hover">
             <thead></thead>
             <tbody>

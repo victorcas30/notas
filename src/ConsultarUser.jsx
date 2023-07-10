@@ -6,11 +6,10 @@ import ModalUser from "./ModalUser";
 const ConsultarUser = () => {
 
     const data = useContext(notasContext);
-    const {users, setUsers, isEdit, setIsEdit, user, setUser } = data;
+    const {users, setUsers, isEdit, setIsEdit, user, setUser, cambiosUser, setCambiosUser } = data;
     const [modalUserAbierto, setModalUserAbierto] = useState(false);
     const [userModal, setUserModal] = useState({});
-
-
+    
     useEffect(() => {
         const userLogueado = localStorage.getItem("userLogueadoNotas");
         const userLogin = JSON.parse(userLogueado);
@@ -19,7 +18,20 @@ const ConsultarUser = () => {
             const {users} = usuarios;
             setUsers(users);
         });
-    },[users]);
+    },[]);
+
+    useEffect(() => {
+        const userLogueado = localStorage.getItem("userLogueadoNotas");
+        const userLogin = JSON.parse(userLogueado);
+        const {token} = userLogin;
+        if(cambiosUser){
+            getUsuarios(token).then(usuarios=>{
+                const {users} = usuarios;
+                setUsers(users);
+            });
+            setCambiosUser(false);
+        }
+    },[cambiosUser]);
 
     const abrirModalUser = () => {
         setModalUserAbierto(true);
