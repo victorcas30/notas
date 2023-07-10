@@ -4,7 +4,6 @@ import notasContext from "./notasContext";
 
 const ModalDelete = ({ isOpen, onClose, alumnoEliminar }) => {
   if (!isOpen) return null;
-  console.log(alumnoEliminar)
   const data = useContext(notasContext);
   const {eliminarAlumno } = data;
 

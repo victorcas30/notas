@@ -16,7 +16,6 @@ const ModalAlumnos = ({ isOpen, onClose, alumnoModal }) => {
     useEffect(() => {
         if(isEdit && alumnoModal){
             const {idalumno, nombres, apellidos, celular, email, eliminado} = alumnoModal;
-            console.log(alumnoModal);
             setValue("nombres", nombres);
             setValue("apellidos", apellidos);
             setValue("celular", celular);

@@ -48,7 +48,6 @@ const ConsultarAlumnos = () => {
         setIsEdit(true);
         setModalAbierto(true);
         const alumnoEditar = alumnos.find(alumno => alumno.idalumno === id);
-        console.log(alumnoEditar)
         setAlumno({});
         setAlumnoModal(alumnoEditar);
     }

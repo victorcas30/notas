@@ -55,11 +55,9 @@ const useNotas = () => {
     const saveUser = (data,reset,onClose) => {
         const copyUser = {...data};
         setUser([copyUser]);
-        console.log(copyUser);
         const userLogueado = localStorage.getItem("userLogueadoNotas");
         const userLogin = JSON.parse(userLogueado);
         const { token } = userLogin;
-        console.log(token);
 
         crearUsuario(copyUser, token).then(res=>{
             console.log(JSON.stringify(res));
@@ -76,14 +74,11 @@ const useNotas = () => {
     const editarUser = (data,reset,idUser,onClose) => {
         const copyUser = {...data}
         copyUser.idusuario = idUser;
-        console.log(idUser);
         delete copyUser.confirmarPassword;
-        console.log(copyUser)
         setUser([copyUser]);
         const userLogueado = localStorage.getItem("userLogueadoNotas");
         const userLogin = JSON.parse(userLogueado);
         const { token } = userLogin;
-        console.log(token);
         editarUsuario(copyUser, token).then(respuesta=>{
             console.log(JSON.stringify(respuesta));
         });
@@ -100,7 +95,6 @@ const useNotas = () => {
     const saveAlumno = (data,reset,onClose) => {
         const copyAlumno = {...data,eliminado:"0"};
         setAlumno([copyAlumno]);
-        console.log(copyAlumno);
         const userLogueado = localStorage.getItem("userLogueadoNotas");
         const userLogin = JSON.parse(userLogueado);
         const { token } = userLogin;
@@ -119,13 +113,10 @@ const useNotas = () => {
     const editarAlumno = (data,reset,idAlum,onClose) => {
         const copyAlumno = {...data}
         copyAlumno.idalumno = idAlum;
-        console.log(idAlum);
-        console.log(copyAlumno)
         setAlumno([copyAlumno]);
         const userLogueado = localStorage.getItem("userLogueadoNotas");
         const userLogin = JSON.parse(userLogueado);
         const { token } = userLogin;
-        console.log(token);
         editarAlum(copyAlumno, token).then(respuesta=>{
             console.log(JSON.stringify(respuesta));
         });
@@ -142,12 +133,10 @@ const useNotas = () => {
     const eliminarAlumno = (alumno,onClose) => {
         const copyAlumno = {...alumno}
         copyAlumno.eliminado = "1";
-        console.log(copyAlumno)
         setAlumno([copyAlumno]);
         const userLogueado = localStorage.getItem("userLogueadoNotas");
         const userLogin = JSON.parse(userLogueado);
         const { token } = userLogin;
-        console.log(token);
         editarAlum(copyAlumno, token).then(respuesta=>{
             console.log(JSON.stringify(respuesta));
         });

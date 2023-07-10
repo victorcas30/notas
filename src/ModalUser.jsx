@@ -16,7 +16,6 @@ const ModalUser = ({ isOpen, onClose, userModal }) => {
   useEffect(() => {
     if(isEdit && userModal){
         const {idusuario, nombre, apellido, usuario} = userModal;
-        console.log(userModal);
         setValue("nombre", nombre);
         setValue("apellido", apellido);
         setValue("usuario", usuario);

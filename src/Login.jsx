@@ -15,12 +15,9 @@ const Login = () => {
             "usuario": txtUser.current.value,
             "password": txtPassword.current.value
         }
-        console.table(user)
         login(user).then(result=>{
             const {token,userInfo:{0:info}} = result;
             const {idusuario,usuario,nombre,apellido} = info;
-            console.log(result)
-            console.log(info)
             const fechaHoraFormateada = fechaAcceso();
             const userLogeado = {
                 "idusuario": idusuario,
