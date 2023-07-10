@@ -139,6 +139,27 @@ const useNotas = () => {
         onClose();
     }
 
+    const eliminarAlumno = (alumno,onClose) => {
+        const copyAlumno = {...alumno}
+        copyAlumno.eliminado = "1";
+        console.log(copyAlumno)
+        setAlumno([copyAlumno]);
+        const userLogueado = localStorage.getItem("userLogueadoNotas");
+        const userLogin = JSON.parse(userLogueado);
+        const { token } = userLogin;
+        console.log(token);
+        editarAlum(copyAlumno, token).then(respuesta=>{
+            console.log(JSON.stringify(respuesta));
+        });
+        setCambiosAlumno(true);
+        setIsEdit(false);
+        //setEditado(true);
+        setTimeout(() => {
+            //setEditado(false);
+        }, 5000);
+        onClose();
+    }
+
 
 
     return {
@@ -165,7 +186,8 @@ const useNotas = () => {
         cambiosAlumno, 
         setCambiosAlumno,
         saveAlumno,
-        editarAlumno
+        editarAlumno,
+        eliminarAlumno
     };
 }
 
