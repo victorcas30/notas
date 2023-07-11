@@ -146,6 +146,22 @@ const editarMat = async(user,token) => {
     }
 }
 
+const eliminarMateria = async(user,token) => {
+    const headers = {"Content-Type":"application/json","Authorization":"Bearer "+token};
+    const options = {
+        method:'PUT',
+        headers:headers,
+        body:JSON.stringify(user)
+    }
+    try{
+        const respuesta = await fetch("http://localhost:8000/api/materias/delete",options);
+        const result = await respuesta.json();
+        return result;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
 export {
     login,
     getUsuarios,
@@ -156,5 +172,6 @@ export {
     editarAlum,
     getMaterias,
     crearMateria,
-    editarMat
+    editarMat,
+    eliminarMateria
 }

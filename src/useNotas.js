@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { crearUsuario, editarUsuario, crearAlumno, editarAlum } from "./getApi";
+import { crearUsuario, editarUsuario, crearAlumno, editarAlum, eliminarMateria } from "./getApi";
 
 const userLoginDefault = {
     "idusuario": 0,
@@ -151,7 +151,17 @@ const useNotas = () => {
         onClose();
     }
 
-
+    const deleteMateriaBtn = (id,onClose) => {
+        const materiaDelete = {"idmateria":id};
+        console.log(materiaDelete)
+        const userLogueado = localStorage.getItem("userLogueadoNotas");
+        const userLogin = JSON.parse(userLogueado);
+        const { token } = userLogin;
+        eliminarMateria(materiaDelete,token).then(respuesta=>{
+            console.log(JSON.stringify(respuesta));
+        });
+        onClose();
+    }
 
     return {
         user,
@@ -182,7 +192,8 @@ const useNotas = () => {
         materias,
         setMaterias,
         cambiosMateria, 
-        setCambiosMateria
+        setCambiosMateria,
+        deleteMateriaBtn
     };
 }
 
