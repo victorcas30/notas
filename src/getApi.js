@@ -162,6 +162,128 @@ const eliminarMateria = async(user,token) => {
     }
 }
 
+const getValores = async(token) => {
+    const headers = {"Authorization":"Bearer "+token};
+    const options = {method:'GET',headers:headers};
+    try{
+        const respuesta = await fetch("http://localhost:8000/api/valores",options);
+        const result = await respuesta.json();
+        return result;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+
+const crearValor = async(user,token) => {
+    const headers = {"Content-Type":"application/json","Authorization":"Bearer "+token};
+    const options = {
+        method:'POST',
+        headers:headers,
+        body:JSON.stringify(user)
+    }
+    try{
+        const respuesta = await fetch("http://localhost:8000/api/valores",options);
+        const result = await respuesta.json();
+        return result;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+const editarValor = async(user,token) => {
+    const headers = {"Content-Type":"application/json","Authorization":"Bearer "+token};
+    const options = {
+        method:'PUT',
+        headers:headers,
+        body:JSON.stringify(user)
+    }
+    try{
+        const respuesta = await fetch("http://localhost:8000/api/valores",options);
+        const result = await respuesta.json();
+        return result;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+const eliminarValor = async(user,token) => {
+    const headers = {"Content-Type":"application/json","Authorization":"Bearer "+token};
+    const options = {
+        method:'PUT',
+        headers:headers,
+        body:JSON.stringify(user)
+    }
+    try{
+        const respuesta = await fetch("http://localhost:8000/api/valores/delete",options);
+        const result = await respuesta.json();
+        return result;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+const getInasistencias = async(token) => {
+    const headers = {"Authorization":"Bearer "+token};
+    const options = {method:'GET',headers:headers};
+    try{
+        const respuesta = await fetch("http://localhost:8000/api/inasistencias",options);
+        const result = await respuesta.json();
+        return result;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+
+const crearInasistencia = async(user,token) => {
+    const headers = {"Content-Type":"application/json","Authorization":"Bearer "+token};
+    const options = {
+        method:'POST',
+        headers:headers,
+        body:JSON.stringify(user)
+    }
+    try{
+        const respuesta = await fetch("http://localhost:8000/api/inasistencias",options);
+        const result = await respuesta.json();
+        return result;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+const editarInasistencia = async(user,token) => {
+    const headers = {"Content-Type":"application/json","Authorization":"Bearer "+token};
+    const options = {
+        method:'PUT',
+        headers:headers,
+        body:JSON.stringify(user)
+    }
+    try{
+        const respuesta = await fetch("http://localhost:8000/api/inasistencias",options);
+        const result = await respuesta.json();
+        return result;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+const eliminarInasistencia = async(user,token) => {
+    const headers = {"Content-Type":"application/json","Authorization":"Bearer "+token};
+    const options = {
+        method:'PUT',
+        headers:headers,
+        body:JSON.stringify(user)
+    }
+    try{
+        const respuesta = await fetch("http://localhost:8000/api/inasistencias/delete",options);
+        const result = await respuesta.json();
+        return result;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
 export {
     login,
     getUsuarios,
@@ -173,5 +295,13 @@ export {
     getMaterias,
     crearMateria,
     editarMat,
-    eliminarMateria
+    eliminarMateria,
+    getValores,
+    crearValor,
+    editarValor,
+    eliminarValor,
+    getInasistencias,
+    crearInasistencia,
+    editarInasistencia,
+    eliminarInasistencia
 }

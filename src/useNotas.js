@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { crearUsuario, editarUsuario, crearAlumno, editarAlum, eliminarMateria } from "./getApi";
+import { crearUsuario, editarUsuario, crearAlumno, editarAlum, eliminarMateria, eliminarValor } from "./getApi";
 
 const userLoginDefault = {
     "idusuario": 0,
@@ -22,6 +22,8 @@ const useNotas = () => {
     const [cambiosAlumno, setCambiosAlumno] = useState(false);
     const [materias,setMaterias] = useState([]);
     const [cambiosMateria, setCambiosMateria] = useState(false);
+    const [valores,setValores] = useState([]);
+    const [cambiosValor, setCambiosValor] = useState(false);
 
     const fechaAcceso = () => {
         const fechaHoraActual = new Date();
@@ -163,6 +165,18 @@ const useNotas = () => {
         onClose();
     }
 
+    const deleteValorBtn = (id,onClose) => {
+        const valorDelete = {"idvalor":id};
+        console.log(valorDelete)
+        const userLogueado = localStorage.getItem("userLogueadoNotas");
+        const userLogin = JSON.parse(userLogueado);
+        const { token } = userLogin;
+        eliminarValor(valorDelete,token).then(respuesta=>{
+            console.log(JSON.stringify(respuesta));
+        });
+        onClose();
+    }
+
     return {
         user,
         setUser,
@@ -193,7 +207,12 @@ const useNotas = () => {
         setMaterias,
         cambiosMateria, 
         setCambiosMateria,
-        deleteMateriaBtn
+        deleteMateriaBtn,
+        valores,
+        setValores,
+        cambiosValor, 
+        setCambiosValor,
+        deleteValorBtn
     };
 }
 
