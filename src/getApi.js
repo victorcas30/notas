@@ -102,6 +102,49 @@ const editarAlum = async(user,token) => {
     }
 }
 
+const getMaterias = async(token) => {
+    const headers = {"Authorization":"Bearer "+token};
+    const options = {method:'GET',headers:headers};
+    try{
+        const respuesta = await fetch("http://localhost:8000/api/materias",options);
+        const result = await respuesta.json();
+        return result;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+const crearMateria = async(user,token) => {
+    const headers = {"Content-Type":"application/json","Authorization":"Bearer "+token};
+    const options = {
+        method:'POST',
+        headers:headers,
+        body:JSON.stringify(user)
+    }
+    try{
+        const respuesta = await fetch("http://localhost:8000/api/materias",options);
+        const result = await respuesta.json();
+        return result;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+const editarMat = async(user,token) => {
+    const headers = {"Content-Type":"application/json","Authorization":"Bearer "+token};
+    const options = {
+        method:'PUT',
+        headers:headers,
+        body:JSON.stringify(user)
+    }
+    try{
+        const respuesta = await fetch("http://localhost:8000/api/materias",options);
+        const result = await respuesta.json();
+        return result;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
 
 export {
     login,
@@ -110,5 +153,8 @@ export {
     editarUsuario,
     getAlumnos,
     crearAlumno,
-    editarAlum
+    editarAlum,
+    getMaterias,
+    crearMateria,
+    editarMat
 }

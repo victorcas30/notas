@@ -20,6 +20,8 @@ const useNotas = () => {
     const [alumnos,setAlumnos] = useState([]);
     const [alumno,setAlumno] = useState();
     const [cambiosAlumno, setCambiosAlumno] = useState(false);
+    const [materias,setMaterias] = useState([]);
+    const [cambiosMateria, setCambiosMateria] = useState(false);
 
     const fechaAcceso = () => {
         const fechaHoraActual = new Date();
@@ -176,7 +178,11 @@ const useNotas = () => {
         setCambiosAlumno,
         saveAlumno,
         editarAlumno,
-        eliminarAlumno
+        eliminarAlumno,
+        materias,
+        setMaterias,
+        cambiosMateria, 
+        setCambiosMateria
     };
 }
 
