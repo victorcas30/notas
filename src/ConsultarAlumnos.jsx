@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import notasContext from "./notasContext";
 import { getAlumnos } from "./getApi";
 import ModalAlumnos from "./ModalAlumnos";
-import ModalDelete from "./ModalDelete";
+import ModalDelete from "./ModalDeleteAlumno";
 
 const ConsultarAlumnos = () => {
     const data = useContext(notasContext);

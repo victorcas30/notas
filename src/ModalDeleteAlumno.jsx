@@ -2,7 +2,7 @@ import "./ModalDelete.css";
 import { useContext, useEffect, useState } from "react";
 import notasContext from "./notasContext";
 
-const ModalDelete = ({ isOpen, onClose, alumnoEliminar }) => {
+const ModalDeleteAlumno = ({ isOpen, onClose, alumnoEliminar }) => {
   if (!isOpen) return null;
   const data = useContext(notasContext);
   const {eliminarAlumno } = data;
@@ -24,4 +24,4 @@ const ModalDelete = ({ isOpen, onClose, alumnoEliminar }) => {
   );
 };
 
-export default ModalDelete;
+export default ModalDeleteAlumno;

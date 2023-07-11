@@ -25,6 +25,7 @@ const ModalAlumnos = ({ isOpen, onClose, alumnoModal }) => {
             setTelefono(celular);
         }else{
             reset();
+            setTelefono('');
         }
     },[isEdit, alumnoModal, setValue, reset]);
         
