@@ -2,17 +2,17 @@ import "./ModalDelete.css";
 import { useContext, useEffect, useState } from "react";
 import notasContext from "./notasContext";
 
-const ModalDeleteAlumno = ({ isOpen, onClose, alumnoEliminar }) => {
+const ModalDeleteInasistencias = ({ isOpen, onClose, inasistenciaEliminar }) => {
   if (!isOpen) return null;
   const data = useContext(notasContext);
-  const {eliminarAlumnoBtn } = data;
+  const {deleteInasistenciaBtn } = data;
 
   return (
     <div className="modal-overlay">
       <div className="modal-content">
-        <h3>¿Desea eliminar este Alumno definitivamente?</h3>
+        <h3>¿Desea eliminar esta Inasistencia definitivamente?</h3>
         <div className="modal-buttons">
-          <button className="modal-button accept-button" onClick={() => eliminarAlumnoBtn(alumnoEliminar,onClose)} >
+          <button className="modal-button accept-button" onClick={() => deleteInasistenciaBtn(inasistenciaEliminar,onClose)} >
             Aceptar
           </button>
           <button className="modal-button cancel-button" onClick={onClose}>
@@ -24,4 +24,4 @@ const ModalDeleteAlumno = ({ isOpen, onClose, alumnoEliminar }) => {
   );
 };
 
-export default ModalDeleteAlumno;
+export default ModalDeleteInasistencias;

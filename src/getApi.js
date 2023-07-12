@@ -102,6 +102,22 @@ const editarAlum = async(user,token) => {
     }
 }
 
+const eliminarAlumno = async(user,token) => {
+    const headers = {"Content-Type":"application/json","Authorization":"Bearer "+token};
+    const options = {
+        method:'PUT',
+        headers:headers,
+        body:JSON.stringify(user)
+    }
+    try{
+        const respuesta = await fetch("http://localhost:8000/api/alumnos/delete",options);
+        const result = await respuesta.json();
+        return result;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
 const getMaterias = async(token) => {
     const headers = {"Authorization":"Bearer "+token};
     const options = {method:'GET',headers:headers};
@@ -292,6 +308,7 @@ export {
     getAlumnos,
     crearAlumno,
     editarAlum,
+    eliminarAlumno,
     getMaterias,
     crearMateria,
     editarMat,
