@@ -2,14 +2,16 @@ import { useContext, useEffect, useRef, useState } from "react";
 import notasContext from "./notasContext";
 import { getTrimestres, crearTrimestre, editarTrimestre} from "./getApi";
 import ModalDeleteTrimestre from "./ModalDeleteTrimestre";
+import ModalInsertTrimestre from "./ModalInsertTrimestre";
 
 const ConsultarTrimestres = () => {
     const data = useContext(notasContext);
-    const { trimestres, setTrimestres, cambiosTrimestre, setCambiosTrimestre } = data;
+    const { trimestres, setTrimestres, cambiosTrimestre, setCambiosTrimestre, crearTrimestreAnual } = data;
     const txtTrimestre = useRef();
     const txtAnio = useRef();
     const [trimestreEditando, setTrimestreEditando] = useState(null);
     const [modalDeleteAbierto, setModalDeleteAbierto] = useState(false);
+    const [modalInsertAbierto, setModalInsertAbierto] = useState(false);
     const [trimestreEliminar, setTrimestreEliminar] = useState({});
 
     useEffect(() => {
@@ -81,13 +83,30 @@ const ConsultarTrimestres = () => {
     const cerrarModalDelete = () => {
         setModalDeleteAbierto(false);
     };
+    
+    const abrirModalInsert = (trimestre) => {
+        setTrimestreEliminar(trimestre);
+        setModalInsertAbierto(true);
+    };
+    
+    const cerrarModalInsert = () => {
+        setModalInsertAbierto(false);
+    };
 
     return(
         <>
         <ModalDeleteTrimestre isOpen={modalDeleteAbierto} onClose={cerrarModalDelete} trimestreEliminar={trimestreEliminar}  />
+        <ModalInsertTrimestre isOpen={modalInsertAbierto} onClose={cerrarModalInsert} />
         <div className="container">
             <h1 className="display-4">Crear Trimestre</h1>
             <hr />
+                <button type="button" className="btn btn-primary" style={{ marginLeft: "auto" }}  onClick={abrirModalInsert} >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-calendar2-date-fill" viewBox="0 0 16 16">
+                    <path d="M9.402 10.246c.625 0 1.184-.484 1.184-1.18 0-.832-.527-1.23-1.16-1.23-.586 0-1.168.387-1.168 1.21 0 .817.543 1.2 1.144 1.2z"/>
+                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zm9.954 3H2.545c-.3 0-.545.224-.545.5v1c0 .276.244.5.545.5h10.91c.3 0 .545-.224.545-.5v-1c0-.276-.244-.5-.546-.5zm-4.118 9.79c1.258 0 2-1.067 2-2.872 0-1.934-.781-2.668-1.953-2.668-.926 0-1.797.672-1.797 1.809 0 1.16.824 1.77 1.676 1.77.746 0 1.23-.376 1.383-.79h.027c-.004 1.316-.461 2.164-1.305 2.164-.664 0-1.008-.45-1.05-.82h-.684c.047.64.594 1.406 1.703 1.406zm-2.89-5.435h-.633A12.6 12.6 0 0 0 4.5 8.16v.695c.375-.257.969-.62 1.258-.777h.012v4.61h.675V7.354z"/>
+                    </svg>
+                    &nbsp;Trimestre Anual
+                </button>
             <table className="table table-light table-hover">
             <thead>
                 <tr>
@@ -106,9 +125,9 @@ const ConsultarTrimestres = () => {
                     </td>
                     <td>
                         <button type="button" className="btn btn-primary" style={{ marginLeft: "auto" }}  onClick={agregarTrimestre} >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-clipboard2-heart-fill" viewBox="0 0 16 16">
-                        <path fillRule="evenodd" d="M10.058.501a.501.501 0 0 0-.5-.501h-2.98c-.276 0-.5.225-.5.501A.499.499 0 0 1 5.582 1a.497.497 0 0 0-.497.497V2a.5.5 0 0 0 .5.5h4.968a.5.5 0 0 0 .5-.5v-.503A.497.497 0 0 0 10.555 1a.499.499 0 0 1-.497-.499Z"/>
-                        <path fillRule="evenodd" d="M4.174 1h-.57a1.5 1.5 0 0 0-1.5 1.5v12a1.5 1.5 0 0 0 1.5 1.5h9a1.5 1.5 0 0 0 1.5-1.5v-12a1.5 1.5 0 0 0-1.5-1.5h-.642c.055.156.085.325.085.5V2c0 .828-.668 1.5-1.492 1.5H5.581A1.496 1.496 0 0 1 4.09 2v-.5c0-.175.03-.344.085-.5Zm3.894 5.482c1.656-1.673 5.795 1.254 0 5.018-5.795-3.764-1.656-6.69 0-5.018Z"/>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-calendar2-date-fill" viewBox="0 0 16 16">
+                            <path d="M9.402 10.246c.625 0 1.184-.484 1.184-1.18 0-.832-.527-1.23-1.16-1.23-.586 0-1.168.387-1.168 1.21 0 .817.543 1.2 1.144 1.2z"/>
+                            <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zm9.954 3H2.545c-.3 0-.545.224-.545.5v1c0 .276.244.5.545.5h10.91c.3 0 .545-.224.545-.5v-1c0-.276-.244-.5-.546-.5zm-4.118 9.79c1.258 0 2-1.067 2-2.872 0-1.934-.781-2.668-1.953-2.668-.926 0-1.797.672-1.797 1.809 0 1.16.824 1.77 1.676 1.77.746 0 1.23-.376 1.383-.79h.027c-.004 1.316-.461 2.164-1.305 2.164-.664 0-1.008-.45-1.05-.82h-.684c.047.64.594 1.406 1.703 1.406zm-2.89-5.435h-.633A12.6 12.6 0 0 0 4.5 8.16v.695c.375-.257.969-.62 1.258-.777h.012v4.61h.675V7.354z"/>
                         </svg>
                             &nbsp;Agregar Trimestre
                         </button>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { crearUsuario, editarUsuario, crearAlumno, editarAlum, eliminarAlumno, eliminarMateria, eliminarValor, eliminarInasistencia, eliminarTrimestre } from "./getApi";
+import { crearUsuario, editarUsuario, crearAlumno, editarAlum, eliminarAlumno, eliminarMateria, eliminarValor, eliminarInasistencia, eliminarTrimestre, getTrimestres, crearTrimestre } from "./getApi";
 
 const userLoginDefault = {
     "idusuario": 0,
@@ -28,6 +28,7 @@ const useNotas = () => {
     const [cambiosInasistencia, setCambiosInasistencia] = useState(false);
     const [trimestres,setTrimestres] = useState([]);
     const [cambiosTrimestre, setCambiosTrimestre] = useState(false);
+    const [trimestreYear,setTrimestreYear] = useState(0);
 
     const fechaAcceso = () => {
         const fechaHoraActual = new Date();
@@ -198,6 +199,45 @@ const useNotas = () => {
         onClose();
     }
 
+    const crearTrimestreAnual = (onClose) => {
+        const userLogueado = localStorage.getItem("userLogueadoNotas");
+        const userLogin = JSON.parse(userLogueado);
+        const { token } = userLogin;
+        getTrimestres(token).then((allTrimestres) => {
+          const { trimestres } = allTrimestres;
+          setTrimestres(trimestres);
+        });
+        const anioMasReciente = Math.max(...trimestres.map(trimestre => Number(trimestre.year)));
+        const nuevoAnioTrimestre = anioMasReciente+1;
+        setTrimestreYear(anioMasReciente)
+        const nuevoTrimestre = [
+            {
+              "descripcion": "Primer Trimestre",
+              "year": nuevoAnioTrimestre,
+              "eliminado": "0"
+            },
+            {
+              "descripcion": "Segundo Trimestre",
+              "year": nuevoAnioTrimestre,
+              "eliminado": "0"
+            },
+            {
+              "descripcion": "Tercer Trimestre",
+              "year": nuevoAnioTrimestre,
+              "eliminado": "0"
+            }
+        ];
+        for (let i = 0; i < nuevoTrimestre.length; i++) {
+            const trimestre = nuevoTrimestre[i];
+        
+            crearTrimestre(trimestre, token).then((respuesta) => {
+                console.log(JSON.stringify(respuesta));
+            });
+          }
+        setCambiosTrimestre(true);
+        onClose();
+    }
+
     return {
         user,
         setUser,
@@ -243,7 +283,10 @@ const useNotas = () => {
         setTrimestres,
         cambiosTrimestre,
         setCambiosTrimestre,
-        deleteTrimestreBtn
+        deleteTrimestreBtn,
+        crearTrimestreAnual,
+        trimestreYear,
+        setTrimestreYear
     };
 }
 
