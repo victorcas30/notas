@@ -18,7 +18,6 @@ const ConsultarAlumnos = () => {
         const userLogin = JSON.parse(userLogueado);
         const {token} = userLogin;
         getAlumnos(token).then(alum=>{
-            console.log(alum)
             const {alumnos} = alum;
             setAlumnos(alumnos);
         });

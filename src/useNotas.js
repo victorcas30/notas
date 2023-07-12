@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { crearUsuario, editarUsuario, crearAlumno, editarAlum, eliminarAlumno, eliminarMateria, eliminarValor, eliminarInasistencia } from "./getApi";
+import { crearUsuario, editarUsuario, crearAlumno, editarAlum, eliminarAlumno, eliminarMateria, eliminarValor, eliminarInasistencia, eliminarTrimestre } from "./getApi";
 
 const userLoginDefault = {
     "idusuario": 0,
@@ -26,6 +26,8 @@ const useNotas = () => {
     const [cambiosValor, setCambiosValor] = useState(false);
     const [inasistencias,setInasistencias] = useState([]);
     const [cambiosInasistencia, setCambiosInasistencia] = useState(false);
+    const [trimestres,setTrimestres] = useState([]);
+    const [cambiosTrimestre, setCambiosTrimestre] = useState(false);
 
     const fechaAcceso = () => {
         const fechaHoraActual = new Date();
@@ -138,7 +140,6 @@ const useNotas = () => {
 
     const eliminarAlumnoBtn = (id,onClose) => {
         const alumnoDelete = {"idalumno":id};
-        console.log(alumnoDelete)
         const userLogueado = localStorage.getItem("userLogueadoNotas");
         const userLogin = JSON.parse(userLogueado);
         const { token } = userLogin;
@@ -151,7 +152,6 @@ const useNotas = () => {
 
     const deleteMateriaBtn = (id,onClose) => {
         const materiaDelete = {"idmateria":id};
-        console.log(materiaDelete)
         const userLogueado = localStorage.getItem("userLogueadoNotas");
         const userLogin = JSON.parse(userLogueado);
         const { token } = userLogin;
@@ -164,7 +164,6 @@ const useNotas = () => {
 
     const deleteValorBtn = (id,onClose) => {
         const valorDelete = {"idvalor":id};
-        console.log(valorDelete)
         const userLogueado = localStorage.getItem("userLogueadoNotas");
         const userLogin = JSON.parse(userLogueado);
         const { token } = userLogin;
@@ -177,7 +176,6 @@ const useNotas = () => {
 
     const deleteInasistenciaBtn = (id,onClose) => {
         const inasistenciaDelete = {"idinasistencia":id};
-        console.log(inasistenciaDelete)
         const userLogueado = localStorage.getItem("userLogueadoNotas");
         const userLogin = JSON.parse(userLogueado);
         const { token } = userLogin;
@@ -185,6 +183,18 @@ const useNotas = () => {
             console.log(JSON.stringify(respuesta));
         });
         setCambiosInasistencia(true);
+        onClose();
+    }
+
+    const deleteTrimestreBtn = (id,onClose) => {
+        const trimestreDelete = {"idtrimestre":id};
+        const userLogueado = localStorage.getItem("userLogueadoNotas");
+        const userLogin = JSON.parse(userLogueado);
+        const { token } = userLogin;
+        eliminarTrimestre(trimestreDelete,token).then(respuesta=>{
+            console.log(JSON.stringify(respuesta));
+        });
+        setCambiosTrimestre(true);
         onClose();
     }
 
@@ -228,7 +238,12 @@ const useNotas = () => {
         setInasistencias,
         cambiosInasistencia, 
         setCambiosInasistencia,
-        deleteInasistenciaBtn
+        deleteInasistenciaBtn,
+        trimestres,
+        setTrimestres,
+        cambiosTrimestre,
+        setCambiosTrimestre,
+        deleteTrimestreBtn
     };
 }
 

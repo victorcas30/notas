@@ -300,6 +300,67 @@ const eliminarInasistencia = async(user,token) => {
     }
 }
 
+const getTrimestres = async(token) => {
+    const headers = {"Authorization":"Bearer "+token};
+    const options = {method:'GET',headers:headers};
+    try{
+        const respuesta = await fetch("http://localhost:8000/api/trimestres",options);
+        const result = await respuesta.json();
+        return result;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+
+const crearTrimestre = async(user,token) => {
+    const headers = {"Content-Type":"application/json","Authorization":"Bearer "+token};
+    const options = {
+        method:'POST',
+        headers:headers,
+        body:JSON.stringify(user)
+    }
+    try{
+        const respuesta = await fetch("http://localhost:8000/api/trimestres",options);
+        const result = await respuesta.json();
+        return result;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+const editarTrimestre = async(user,token) => {
+    const headers = {"Content-Type":"application/json","Authorization":"Bearer "+token};
+    const options = {
+        method:'PUT',
+        headers:headers,
+        body:JSON.stringify(user)
+    }
+    try{
+        const respuesta = await fetch("http://localhost:8000/api/trimestres",options);
+        const result = await respuesta.json();
+        return result;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+const eliminarTrimestre = async(user,token) => {
+    const headers = {"Content-Type":"application/json","Authorization":"Bearer "+token};
+    const options = {
+        method:'PUT',
+        headers:headers,
+        body:JSON.stringify(user)
+    }
+    try{
+        const respuesta = await fetch("http://localhost:8000/api/trimestres/delete",options);
+        const result = await respuesta.json();
+        return result;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
 export {
     login,
     getUsuarios,
@@ -320,5 +381,9 @@ export {
     getInasistencias,
     crearInasistencia,
     editarInasistencia,
-    eliminarInasistencia
+    eliminarInasistencia,
+    getTrimestres,
+    crearTrimestre,
+    editarTrimestre,
+    eliminarTrimestre
 }

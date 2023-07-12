@@ -64,7 +64,6 @@ const ConsultarInasistencias = () => {
         const inasistenciaEditado = inasistencias.find((inasistencia) => inasistencia.idinasistencia === idinasistenciaEditado);
         const {descripcion, idinasistencia} = inasistenciaEditado;
         const inas = {idinasistencia:idinasistencia,descripcion:descripcion,eliminado:"0"};
-        console.log(inas)
             editarInasistencia(inas,token).then(respuesta=>{
                 console.log(JSON.stringify(respuesta));
             });
