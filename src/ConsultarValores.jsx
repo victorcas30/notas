@@ -2,10 +2,12 @@ import { useContext, useEffect, useRef, useState } from "react";
 import notasContext from "./notasContext";
 import { crearValor, getValores, editarValor } from "./getApi";
 import ModalDeleteValores from "./ModalDeleteValores";
+import Alerts from "./Alerts";
+import { IconoDanger, IconoInfo, IconoSuccess } from "./iconos";
 
 const ConsultarValores = () => {
     const data = useContext(notasContext);
-    const { valores,setValores, cambiosValor, setCambiosValor } = data;
+    const { valores,setValores, cambiosValor, setCambiosValor, guardado, setGuardado, editado, setEditado, eliminado, setEliminado } = data;
     const txtValor = useRef();
     const [valorEditando, setValorEditando] = useState(null);
     const [modalDeleteAbierto, setModalDeleteAbierto] = useState(false);
@@ -48,6 +50,10 @@ const ConsultarValores = () => {
           });
           setCambiosValor(true)
           txtValor.current.value = "";
+          setGuardado(true);
+          setTimeout(() => {
+              setGuardado(false);
+          }, 5000);
         } else {
           console.log("Por favor, ingresa un nombre de Valor");
         }
@@ -69,6 +75,10 @@ const ConsultarValores = () => {
                 console.log(JSON.stringify(respuesta));
             });
         setValorEditando(null);
+        setEditado(true);
+        setTimeout(() => {
+            setEditado(false);
+        }, 5000);
     };
 
     const abrirModalDelete = (valor) => {
@@ -84,6 +94,9 @@ const ConsultarValores = () => {
         <>
         <ModalDeleteValores isOpen={modalDeleteAbierto} onClose={cerrarModalDelete} valorEliminar={valorEliminar}  />
         <div className="container">
+        {guardado &&  <Alerts mensaje="Valor registrado exitosamente" tipo="success" icono={<IconoSuccess/>} />}
+        {editado &&  <Alerts mensaje="Valor editado exitosamente" tipo="info" icono={<IconoInfo/>}  />}
+        {eliminado &&  <Alerts mensaje="Valor eliminado exitosamente" tipo="danger" icono={<IconoDanger/>}  /> }
             <h1 className="display-4">Crear Valores</h1>
             <hr />
             <table className="table table-light table-hover">

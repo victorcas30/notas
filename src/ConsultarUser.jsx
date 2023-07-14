@@ -2,11 +2,13 @@ import { useContext, useEffect, useState } from "react";
 import notasContext from "./notasContext";
 import { getUsuarios } from "./getApi";
 import ModalUser from "./ModalUser";
+import Alerts from "./Alerts";
+import { IconoDanger, IconoInfo, IconoSuccess } from "./iconos";
 
 const ConsultarUser = () => {
 
     const data = useContext(notasContext);
-    const {users, setUsers, isEdit, setIsEdit, user, setUser, cambiosUser, setCambiosUser } = data;
+    const {users, setUsers, isEdit, setIsEdit, user, setUser, cambiosUser, setCambiosUser, guardado, editado, setEditado } = data;
     const [modalUserAbierto, setModalUserAbierto] = useState(false);
     const [userModal, setUserModal] = useState({});
     
@@ -53,7 +55,9 @@ const ConsultarUser = () => {
         <>
         <ModalUser isOpen={modalUserAbierto} onClose={cerrarModalUser} userModal={userModal}  />
         <div className="container">
-        <h1 className="display-4">Consultar User</h1>
+        {guardado &&  <Alerts mensaje="Usuario registrado exitosamente" tipo="success" icono={<IconoSuccess/>} />}
+        {editado &&  <Alerts mensaje="Usuario editado exitosamente" tipo="info" icono={<IconoInfo/>}  />}
+        <h1 className="display-4">Usuarios</h1>
         <hr/>
         <button type="button" className="btn btn-primary" style={{ marginLeft: "auto" }}  onClick={abrirModalUser}>
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-person-fill-add" viewBox="0 0 16 16">

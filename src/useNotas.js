@@ -29,6 +29,9 @@ const useNotas = () => {
     const [trimestres,setTrimestres] = useState([]);
     const [cambiosTrimestre, setCambiosTrimestre] = useState(false);
     const [trimestreYear,setTrimestreYear] = useState(0);
+    const [guardado,setGuardado] = useState(false);
+    const [editado,setEditado] = useState(false);
+    const [eliminado,setEliminado] = useState(false);
 
     const fechaAcceso = () => {
         const fechaHoraActual = new Date();
@@ -72,9 +75,9 @@ const useNotas = () => {
             console.log(JSON.stringify(res));
         })
         setCambiosUser(true);
-        //setGuardado(true);
+        setGuardado(true);
         setTimeout(() => {
-            //setGuardado(false);
+            setGuardado(false);
         }, 5000);
         reset();
         onClose();
@@ -93,9 +96,9 @@ const useNotas = () => {
         });
         setCambiosUser(true);
         setIsEdit(false);
-        //setEditado(true);
+        setEditado(true);
         setTimeout(() => {
-            //setEditado(false);
+            setEditado(false);
         }, 5000);
         reset();
         onClose();
@@ -111,9 +114,9 @@ const useNotas = () => {
             console.log(JSON.stringify(res));
         })
         setCambiosAlumno(true);
-        //setGuardado(true);
+        setGuardado(true);
         setTimeout(() => {
-            //setGuardado(false);
+            setGuardado(false);
         }, 5000);
         reset();
         onClose();
@@ -131,9 +134,9 @@ const useNotas = () => {
         });
         setCambiosAlumno(true);
         setIsEdit(false);
-        //setEditado(true);
+        setEditado(true);
         setTimeout(() => {
-            //setEditado(false);
+            setEditado(false);
         }, 5000);
         reset();
         onClose();
@@ -149,6 +152,10 @@ const useNotas = () => {
         });
         setCambiosAlumno(true);
         onClose();
+        setEliminado(true);
+        setTimeout(() => {
+            setEliminado(false);
+        }, 5000);
     }
 
     const deleteMateriaBtn = (id,onClose) => {
@@ -161,6 +168,10 @@ const useNotas = () => {
         });
         setCambiosMateria(true);
         onClose();
+        setEliminado(true);
+        setTimeout(() => {
+            setEliminado(false);
+        }, 5000);
     }
 
     const deleteValorBtn = (id,onClose) => {
@@ -173,6 +184,10 @@ const useNotas = () => {
         });
         setCambiosValor(true);
         onClose();
+        setEliminado(true);
+        setTimeout(() => {
+            setEliminado(false);
+        }, 5000);
     }
 
     const deleteInasistenciaBtn = (id,onClose) => {
@@ -185,6 +200,10 @@ const useNotas = () => {
         });
         setCambiosInasistencia(true);
         onClose();
+        setEliminado(true);
+        setTimeout(() => {
+            setEliminado(false);
+        }, 5000);
     }
 
     const deleteTrimestreBtn = (id,onClose) => {
@@ -197,6 +216,10 @@ const useNotas = () => {
         });
         setCambiosTrimestre(true);
         onClose();
+        setEliminado(true);
+        setTimeout(() => {
+            setEliminado(false);
+        }, 5000);
     }
 
     const crearTrimestreAnual = (onClose) => {
@@ -236,6 +259,10 @@ const useNotas = () => {
           }
         setCambiosTrimestre(true);
         onClose();
+        setGuardado(true);
+        setTimeout(() => {
+            setGuardado(false);
+        }, 5000);
     }
 
     return {
@@ -286,7 +313,10 @@ const useNotas = () => {
         deleteTrimestreBtn,
         crearTrimestreAnual,
         trimestreYear,
-        setTrimestreYear
+        setTrimestreYear,
+        guardado,setGuardado,
+        editado,setEditado,
+        eliminado,setEliminado
     };
 }
 

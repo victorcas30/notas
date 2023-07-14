@@ -2,10 +2,12 @@ import { useContext, useEffect, useRef, useState } from "react";
 import notasContext from "./notasContext";
 import { crearMateria, getMaterias, editarMat } from "./getApi";
 import ModalDeleteMateria from "./ModalDeleteMaterias";
+import Alerts from "./Alerts";
+import { IconoDanger, IconoInfo, IconoSuccess } from "./iconos";
 
 const ConsultarMaterias = () => {
     const data = useContext(notasContext);
-    const { materias, setMaterias, cambiosMateria, setCambiosMateria } = data;
+    const { materias, setMaterias, cambiosMateria, setCambiosMateria, guardado, setGuardado, editado, setEditado, eliminado, setEliminado  } = data;
     const txtMateria = useRef();
     const [materiaEditando, setMateriaEditando] = useState(null);
     const [modalDeleteAbierto, setModalDeleteAbierto] = useState(false);
@@ -48,6 +50,10 @@ const ConsultarMaterias = () => {
           });
           setCambiosMateria(true)
           txtMateria.current.value = "";
+          setGuardado(true);
+            setTimeout(() => {
+                setGuardado(false);
+            }, 5000);
         } else {
           console.log("Por favor, ingresa un nombre de materia");
         }
@@ -69,6 +75,10 @@ const ConsultarMaterias = () => {
                 console.log(JSON.stringify(respuesta));
             });
         setMateriaEditando(null);
+        setEditado(true);
+        setTimeout(() => {
+            setEditado(false);
+        }, 5000);
     };
 
     const abrirModalDelete = (materia) => {
@@ -84,6 +94,9 @@ const ConsultarMaterias = () => {
         <>
         <ModalDeleteMateria isOpen={modalDeleteAbierto} onClose={cerrarModalDelete} materiaEliminar={materiaEliminar}  />
         <div className="container">
+        {guardado &&  <Alerts mensaje="Materia registrada exitosamente" tipo="success" icono={<IconoSuccess/>} />}
+        {editado &&  <Alerts mensaje="Materia editada exitosamente" tipo="info" icono={<IconoInfo/>}  />}
+        {eliminado &&  <Alerts mensaje="Materia eliminada exitosamente" tipo="danger" icono={<IconoDanger/>}  /> }
             <h1 className="display-4">Crear Materia</h1>
             <hr />
             <table className="table table-light table-hover">

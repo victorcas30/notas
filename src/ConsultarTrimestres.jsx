@@ -3,10 +3,12 @@ import notasContext from "./notasContext";
 import { getTrimestres, crearTrimestre, editarTrimestre} from "./getApi";
 import ModalDeleteTrimestre from "./ModalDeleteTrimestre";
 import ModalInsertTrimestre from "./ModalInsertTrimestre";
+import Alerts from "./Alerts";
+import { IconoDanger, IconoInfo, IconoSuccess } from "./iconos";
 
 const ConsultarTrimestres = () => {
     const data = useContext(notasContext);
-    const { trimestres, setTrimestres, cambiosTrimestre, setCambiosTrimestre, crearTrimestreAnual } = data;
+    const { trimestres, setTrimestres, cambiosTrimestre, setCambiosTrimestre, guardado, setGuardado, editado, setEditado, eliminado, setEliminado } = data;
     const txtTrimestre = useRef();
     const txtAnio = useRef();
     const [trimestreEditando, setTrimestreEditando] = useState(null);
@@ -52,6 +54,10 @@ const ConsultarTrimestres = () => {
           setCambiosTrimestre(true);
           txtTrimestre.current.value = "";
           txtAnio.current.value = "";
+          setGuardado(true);
+            setTimeout(() => {
+                setGuardado(false);
+            }, 5000);
         } else {
           console.log("Por favor, llene todos los campos");
         }
@@ -73,6 +79,10 @@ const ConsultarTrimestres = () => {
                 console.log(JSON.stringify(respuesta));
             });
         setTrimestreEditando(null);
+        setEditado(true);
+        setTimeout(() => {
+            setEditado(false);
+        }, 5000);
     };
 
     const abrirModalDelete = (trimestre) => {
@@ -98,6 +108,9 @@ const ConsultarTrimestres = () => {
         <ModalDeleteTrimestre isOpen={modalDeleteAbierto} onClose={cerrarModalDelete} trimestreEliminar={trimestreEliminar}  />
         <ModalInsertTrimestre isOpen={modalInsertAbierto} onClose={cerrarModalInsert} />
         <div className="container">
+        {guardado &&  <Alerts mensaje="Trimestre registrado exitosamente" tipo="success" icono={<IconoSuccess/>} />}
+        {editado &&  <Alerts mensaje="Trimestre editado exitosamente" tipo="info" icono={<IconoInfo/>}  />}
+        {eliminado &&  <Alerts mensaje="Trimestre eliminado exitosamente" tipo="danger" icono={<IconoDanger/>}  /> }
             <h1 className="display-4">Crear Trimestre</h1>
             <hr />
                 <button type="button" className="btn btn-primary" style={{ marginLeft: "auto" }}  onClick={abrirModalInsert} >

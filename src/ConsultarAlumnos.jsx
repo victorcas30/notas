@@ -3,10 +3,12 @@ import notasContext from "./notasContext";
 import { getAlumnos } from "./getApi";
 import ModalAlumnos from "./ModalAlumnos";
 import ModalDelete from "./ModalDeleteAlumno";
+import Alerts from "./Alerts";
+import { IconoDanger, IconoInfo, IconoSuccess } from "./iconos";
 
 const ConsultarAlumnos = () => {
     const data = useContext(notasContext);
-    const {alumnos, setAlumnos, isEdit, setIsEdit, cambiosAlumno, setCambiosAlumno, setAlumno } = data;
+    const {alumnos, setAlumnos, isEdit, setIsEdit, cambiosAlumno, setCambiosAlumno, setAlumno, guardado, editado, eliminado, setEliminado} = data;
     const [modalAbierto, setModalAbierto] = useState(false);
     const [alumnoModal, setAlumnoModal] = useState({});
     const [modalDeleteAbierto, setModalDeleteAbierto] = useState(false);
@@ -66,7 +68,11 @@ const ConsultarAlumnos = () => {
         <ModalDelete isOpen={modalDeleteAbierto} onClose={cerrarModalDelete} alumnoEliminar={alumnoEliminar}  />
         <ModalAlumnos isOpen={modalAbierto} onClose={cerrarModalAlumno} alumnoModal={alumnoModal}  />
         <div className="container">
-        <h1 className="display-4">Consultar Alumnos</h1>
+        {guardado &&  <Alerts mensaje="Alumno registrado exitosamente" tipo="success" icono={<IconoSuccess/>} />}
+        {editado &&  <Alerts mensaje="Alumno editado correctamente" tipo="info" icono={<IconoInfo/>}  />}
+        {eliminado &&  <Alerts mensaje="Alumno eliminado exitosamente" tipo="danger" icono={<IconoDanger/>}  /> }
+
+        <h1 className="display-4">Alumnos</h1>
         <hr/>
         <button type="button" className="btn btn-primary" style={{ marginLeft: "auto" }} onClick={abrirModalAlumno}>
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-person-vcard-fill" viewBox="0 0 16 16">
