@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { crearUsuario, editarUsuario, crearAlumno, editarAlum, eliminarAlumno, eliminarMateria, eliminarValor, eliminarInasistencia, eliminarTrimestre, getTrimestres, crearTrimestre } from "./getApi";
+import { crearUsuario, editarUsuario, crearAlumno, editarAlum, eliminarAlumno, eliminarMateria, eliminarValor, eliminarInasistencia, eliminarTrimestre, getTrimestres, crearTrimestre, eliminarGrado } from "./getApi";
 
 const userLoginDefault = {
     "idusuario": 0,
@@ -29,9 +29,12 @@ const useNotas = () => {
     const [trimestres,setTrimestres] = useState([]);
     const [cambiosTrimestre, setCambiosTrimestre] = useState(false);
     const [trimestreYear,setTrimestreYear] = useState(0);
+    const [grados, setGrados] = useState([]);
+    const [cambiosGrado, setCambiosGrado] = useState(false);
     const [guardado,setGuardado] = useState(false);
     const [editado,setEditado] = useState(false);
     const [eliminado,setEliminado] = useState(false);
+    const [vacio,setVacio] = useState(false);
 
     const fechaAcceso = () => {
         const fechaHoraActual = new Date();
@@ -265,6 +268,22 @@ const useNotas = () => {
         }, 5000);
     }
 
+    const deleteGradoBtn = (id,onClose) => {
+        const gradoDelete = {"idgrado":id};
+        const userLogueado = localStorage.getItem("userLogueadoNotas");
+        const userLogin = JSON.parse(userLogueado);
+        const { token } = userLogin;
+        eliminarGrado(gradoDelete,token).then(respuesta=>{
+            console.log(JSON.stringify(respuesta));
+        });
+        setCambiosGrado(true);
+        onClose();
+        setEliminado(true);
+        setTimeout(() => {
+            setEliminado(false);
+        }, 5000);
+    }
+
     return {
         user,
         setUser,
@@ -316,7 +335,11 @@ const useNotas = () => {
         setTrimestreYear,
         guardado,setGuardado,
         editado,setEditado,
-        eliminado,setEliminado
+        eliminado,setEliminado,
+        deleteGradoBtn,
+        grados,setGrados,
+        cambiosGrado,setCambiosGrado,
+        vacio,setVacio
     };
 }
 

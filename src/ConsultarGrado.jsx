@@ -1,25 +1,25 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import notasContext from "./notasContext";
-import { crearValor, getValores, editarValor } from "./getApi";
-import ModalDeleteValores from "./ModalDeleteValores";
+import { crearGrado, getGrados, editarGrado } from "./getApi";
+import ModalDeleteGrados from "./ModalDeleteGrados";
 import Alerts from "./Alerts";
-import { IconoDanger, IconoInfo, IconoSuccess, IconoText } from "./iconos";
+import { IconoSuccess, IconoInfo, IconoDanger, IconoText } from "./iconos";
 
-const ConsultarValores = () => {
+const ConsultarGrado = () => {
     const data = useContext(notasContext);
-    const { valores,setValores, cambiosValor, setCambiosValor, guardado, setGuardado, editado, setEditado, eliminado, vacio, setVacio } = data;
-    const txtValor = useRef();
-    const [valorEditando, setValorEditando] = useState(null);
+    const { grados, setGrados, cambiosGrado,setCambiosGrado, guardado, setGuardado, editado, setEditado, eliminado, setEliminado, vacio, setVacio } = data;
+    const txtGrado = useRef();
+    const [gradoEditando, setGradoEditando] = useState(null);
     const [modalDeleteAbierto, setModalDeleteAbierto] = useState(false);
-    const [valorEliminar, setValorEliminar] = useState({});
+    const [gradoEliminar, setGradoEliminar] = useState({});
 
     useEffect(() => {
         const userLogueado = localStorage.getItem("userLogueadoNotas");
         const userLogin = JSON.parse(userLogueado);
         const { token } = userLogin;
-        getValores(token).then((allValores) => {
-          const { valores } = allValores;
-          setValores(valores);
+        getGrados(token).then((allGrados) => {
+            const { grados } = allGrados;
+          setGrados(grados);
         });
     }, []);
 
@@ -27,35 +27,35 @@ const ConsultarValores = () => {
         const userLogueado = localStorage.getItem("userLogueadoNotas");
         const userLogin = JSON.parse(userLogueado);
         const {token} = userLogin;
-        if(cambiosValor){
-            getValores(token).then((allValores) => {
-                const { valores } = allValores;
-                setValores(valores);
-              });
-            setCambiosValor(false);
+        if(cambiosGrado){
+            getGrados(token).then((allGrados) => {
+                const { grados } = allGrados;
+              setGrados(grados);
+            });
+            setCambiosGrado(false);
         }
-    },[cambiosValor]);  
-
-    const agregarValor = () => {
+    },[cambiosGrado]); 
+    
+    const agregarGrado = () => {
         const userLogueado = localStorage.getItem("userLogueadoNotas");
         const userLogin = JSON.parse(userLogueado);
         const { token } = userLogin;
-        const nombreValor = txtValor.current.value.trim();
+        const nombreGrado = txtGrado.current.value.trim();
       
-        if (nombreValor !== "") {
-          const valorData = { valor: nombreValor };
+        if (nombreGrado !== "") {
+          const gradoData = { descripcion: nombreGrado };
           
-          crearValor(valorData, token).then((respuesta) => {
+          crearGrado(gradoData, token).then((respuesta) => {
             console.log(JSON.stringify(respuesta));
           });
-          setCambiosValor(true)
-          txtValor.current.value = "";
+          setCambiosGrado(true)
+          txtGrado.current.value = "";
           setGuardado(true);
           setTimeout(() => {
               setGuardado(false);
           }, 5000);
         } else {
-          console.log("Por favor, ingresa un nombre de Valor");
+          console.log("Por favor, ingresa un nombre de Grado");
           setVacio(true);
           setTimeout(() => {
             setVacio(false);
@@ -63,30 +63,29 @@ const ConsultarValores = () => {
         }
     };
 
-    const editValor = (id) => {
-        setValorEditando(id);
+    const editGrado = (id) => {
+        setGradoEditando(id);
     };
 
-    const updateValorBtn = (idvalorEditado) => {
+    const updateGradoBtn = (idgradoEditado) => {
         const userLogueado = localStorage.getItem("userLogueadoNotas");
         const userLogin = JSON.parse(userLogueado);
         const { token } = userLogin;
-        const valorEditado = valores.find((valor) => valor.idvalor === idvalorEditado);
-        const {valor, idvalor} = valorEditado;
-        const val = {idvalor:idvalor,valor:valor,eliminado:"0"};
-        console.log(val)
-            editarValor(val,token).then(respuesta=>{
+        const gradoEditando = grados.find((grado) => grado.idgrado === idgradoEditado);
+        const {descripcion, idgrado} = gradoEditando;
+        const gra = {idgrado:idgrado,descripcion:descripcion,eliminado:"0"};
+            editarGrado(gra,token).then(respuesta=>{
                 console.log(JSON.stringify(respuesta));
             });
-        setValorEditando(null);
+        setGradoEditando(null);
         setEditado(true);
         setTimeout(() => {
             setEditado(false);
         }, 5000);
     };
 
-    const abrirModalDelete = (valor) => {
-        setValorEliminar(valor);
+    const abrirModalDelete = (inasistencia) => {
+        setGradoEliminar(inasistencia);
         setModalDeleteAbierto(true);
     };
     
@@ -94,15 +93,16 @@ const ConsultarValores = () => {
         setModalDeleteAbierto(false);
     };
 
+
     return(
         <>
-        <ModalDeleteValores isOpen={modalDeleteAbierto} onClose={cerrarModalDelete} valorEliminar={valorEliminar}  />
         <div className="container">
-        {guardado &&  <Alerts mensaje="Valor registrado exitosamente" tipo="success" icono={<IconoSuccess/>} />}
-        {editado &&  <Alerts mensaje="Valor editado exitosamente" tipo="info" icono={<IconoInfo/>}  />}
-        {eliminado &&  <Alerts mensaje="Valor eliminado exitosamente" tipo="danger" icono={<IconoDanger/>}  /> }
-        {vacio && <Alerts mensaje="Por favor, ingresa un nombre de Valor" tipo="danger" icono={<IconoText/>}  /> }
-            <h1 className="display-4">Crear Valores</h1>
+        <ModalDeleteGrados isOpen={modalDeleteAbierto} onClose={cerrarModalDelete} gradoEliminar={gradoEliminar}  />
+        {guardado &&  <Alerts mensaje="Grado registrado exitosamente" tipo="success" icono={<IconoSuccess/>} />}
+        {editado &&  <Alerts mensaje="Grado editado exitosamente" tipo="info" icono={<IconoInfo/>}  />}
+        {eliminado &&  <Alerts mensaje="Grado eliminado exitosamente" tipo="danger" icono={<IconoDanger/>}  /> }
+        {vacio && <Alerts mensaje="Por favor, ingresa un nombre de Grado" tipo="danger" icono={<IconoText/>}  /> }
+            <h1 className="display-4">Crear Grado</h1>
             <hr />
             <table className="table table-light table-hover">
             <thead>
@@ -118,66 +118,67 @@ const ConsultarValores = () => {
                     <h5>Nombre:</h5>
                 </td>
                 <td>
-                    <input type="text" className="form-control w-50" name="materia" ref={txtValor} maxLength="25" required  />
+                    <input type="text" className="form-control w-50" name="descripcion" ref={txtGrado} maxLength="25" required  />
                 </td>
                 <td>
-                    <button type="button" className="btn btn-primary" style={{ marginLeft: "auto" }}  onClick={agregarValor} >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-clipboard2-heart-fill" viewBox="0 0 16 16">
-                    <path fillRule="evenodd" d="M10.058.501a.501.501 0 0 0-.5-.501h-2.98c-.276 0-.5.225-.5.501A.499.499 0 0 1 5.582 1a.497.497 0 0 0-.497.497V2a.5.5 0 0 0 .5.5h4.968a.5.5 0 0 0 .5-.5v-.503A.497.497 0 0 0 10.555 1a.499.499 0 0 1-.497-.499Z"/>
-                    <path fillRule="evenodd" d="M4.174 1h-.57a1.5 1.5 0 0 0-1.5 1.5v12a1.5 1.5 0 0 0 1.5 1.5h9a1.5 1.5 0 0 0 1.5-1.5v-12a1.5 1.5 0 0 0-1.5-1.5h-.642c.055.156.085.325.085.5V2c0 .828-.668 1.5-1.492 1.5H5.581A1.496 1.496 0 0 1 4.09 2v-.5c0-.175.03-.344.085-.5Zm3.894 5.482c1.656-1.673 5.795 1.254 0 5.018-5.795-3.764-1.656-6.69 0-5.018Z"/>
+                    <button type="button" className="btn btn-primary" style={{ marginLeft: "auto" }}  onClick={agregarGrado} >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-mortarboard-fill" viewBox="0 0 16 16">
+                        <path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917l-7.5-3.5Z"/>
+                        <path d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466 4.176 9.032Z"/>
                     </svg>
-                        &nbsp;Agregar Valor
+                        &nbsp;Agregar Grado
                     </button>
                 </td>
                 </tr>
             </tbody>
             </table>
         </div>
+
         <div className="container">
-            <h1 className="display-4">Valores</h1>
+            <h1 className="display-4">Grados</h1>
             <hr />
             <table className="table table-secondary table-hover">
                 <thead>
                     <tr>
                     <th>#</th>
-                    <th>Valores</th>
+                    <th>Grados</th>
                     <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     {
-                        valores.map(val => {
-                            const { idvalor, valor } = val;
+                        grados.map(gra => {
+                            const { idgrado, descripcion } = gra;
                             return(
-                                <tr key={idvalor}>
-                                    <td>{idvalor}</td>
+                                <tr key={idgrado}>
+                                    <td>{idgrado}</td>
                                     {
-                                        valorEditando === idvalor ? (
+                                        gradoEditando === idgrado ? (
                                             <td>
-                                                <input type="text" className="form-control w-50" name="valor" value={valor}
+                                                <input type="text" className="form-control w-50" name="descripcion" value={descripcion}
                                                 onChange={(e) =>
-                                                    setValores((valores) =>
-                                                    valores.map((val) =>
-                                                        val.idvalor === idvalor ? { ...val, valor: e.target.value } : val
+                                                    setGrados((grados) =>
+                                                    grados.map((gra) =>
+                                                    gra.idgrado === idgrado ? { ...gra, descripcion: e.target.value } : gra
                                                     )
                                                     )
                                                 }
                                                 />
                                             </td>
                                         ) : (
-                                            <td>{valor}</td>
+                                            <td>{descripcion}</td>
                                         )
                                         }
                                     {
-                                        valorEditando === idvalor ? (
+                                        gradoEditando === idgrado ? (
                                             <td>
-                                                <button className="btn btn-success" onClick={() => updateValorBtn(idvalor)}  >
+                                                <button className="btn btn-success" onClick={() => updateGradoBtn(idgrado)}  >
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-plus-circle-fill" viewBox="0 0 16 16">
                                                     <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
                                                     </svg>
                                                 </button>
 
-                                                <button type="button" className="btn btn-danger ms-4" onClick={() => abrirModalDelete(idvalor)} >
+                                                <button type="button" className="btn btn-danger ms-4" onClick={() => abrirModalDelete(idgrado)} >
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash3-fill" viewBox="0 0 16 16">
                                                     <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z"></path>
                                                     </svg>
@@ -185,13 +186,13 @@ const ConsultarValores = () => {
                                             </td>
                                         ) : (
                                         <td>
-                                            <button type="button" className="btn btn-secondary" onClick={() => editValor(idvalor)} >
+                                            <button type="button" className="btn btn-secondary" onClick={() => editGrado(idgrado)} >
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil-fill" viewBox="0 0 16 16">
                                                 <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
                                                 </svg>
                                             </button>
 
-                                            <button type="button" className="btn btn-danger ms-4" onClick={() => abrirModalDelete(idvalor)} >
+                                            <button type="button" className="btn btn-danger ms-4" onClick={() => abrirModalDelete(idgrado)} >
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash3-fill" viewBox="0 0 16 16">
                                                 <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z"></path>
                                                 </svg>
@@ -199,12 +200,10 @@ const ConsultarValores = () => {
                                         </td>
                                     )
                                     }
-                                    
                                 </tr>
                             )
                         })
                     }
-
                 </tbody>
             </table>
         </div>
@@ -213,4 +212,4 @@ const ConsultarValores = () => {
 
 }
 
-export default ConsultarValores;
+export default ConsultarGrado;

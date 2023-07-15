@@ -3,11 +3,11 @@ import notasContext from "./notasContext";
 import { crearInasistencia, getInasistencias, editarInasistencia } from "./getApi";
 import ModalDeleteInasistencias from "./ModalDeleteInasistencias";
 import Alerts from "./Alerts";
-import { IconoDanger, IconoInfo, IconoSuccess } from "./iconos";
+import { IconoDanger, IconoInfo, IconoSuccess, IconoText } from "./iconos";
 
 const ConsultarInasistencias = () => {
     const data = useContext(notasContext);
-    const { inasistencias, setInasistencias, cambiosInasistencia, setCambiosInasistencia, guardado, setGuardado, editado, setEditado, eliminado, setEliminado } = data;
+    const { inasistencias, setInasistencias, cambiosInasistencia, setCambiosInasistencia, guardado, setGuardado, editado, setEditado, eliminado, vacio, setVacio } = data;
     const txtInasistencia = useRef();
     const [inasistenciaEditando, setInasistenciaEditando] = useState(null);
     const [modalDeleteAbierto, setModalDeleteAbierto] = useState(false);
@@ -56,6 +56,10 @@ const ConsultarInasistencias = () => {
           }, 5000);
         } else {
           console.log("Por favor, ingresa un nombre de Inasistencia");
+          setVacio(true);
+          setTimeout(() => {
+            setVacio(false);
+        }, 5000);
         }
     };
 
@@ -97,6 +101,7 @@ const ConsultarInasistencias = () => {
         {guardado &&  <Alerts mensaje="Inasistencia registrada exitosamente" tipo="success" icono={<IconoSuccess/>} />}
         {editado &&  <Alerts mensaje="Inasistencia editada exitosamente" tipo="info" icono={<IconoInfo/>}  />}
         {eliminado &&  <Alerts mensaje="Inasistencia eliminada exitosamente" tipo="danger" icono={<IconoDanger/>}  /> }
+        {vacio && <Alerts mensaje="Por favor, ingresa un nombre de Inasistencia" tipo="danger" icono={<IconoText/>}  /> }
             <h1 className="display-4">Crear Inasistencias</h1>
             <hr />
         <table className="table table-light table-hover">

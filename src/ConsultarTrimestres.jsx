@@ -4,11 +4,11 @@ import { getTrimestres, crearTrimestre, editarTrimestre} from "./getApi";
 import ModalDeleteTrimestre from "./ModalDeleteTrimestre";
 import ModalInsertTrimestre from "./ModalInsertTrimestre";
 import Alerts from "./Alerts";
-import { IconoDanger, IconoInfo, IconoSuccess } from "./iconos";
+import { IconoDanger, IconoInfo, IconoSuccess, IconoText } from "./iconos";
 
 const ConsultarTrimestres = () => {
     const data = useContext(notasContext);
-    const { trimestres, setTrimestres, cambiosTrimestre, setCambiosTrimestre, guardado, setGuardado, editado, setEditado, eliminado, setEliminado } = data;
+    const { trimestres, setTrimestres, cambiosTrimestre, setCambiosTrimestre, guardado, setGuardado, editado, setEditado, eliminado, vacio, setVacio } = data;
     const txtTrimestre = useRef();
     const txtAnio = useRef();
     const [trimestreEditando, setTrimestreEditando] = useState(null);
@@ -60,6 +60,10 @@ const ConsultarTrimestres = () => {
             }, 5000);
         } else {
           console.log("Por favor, llene todos los campos");
+          setVacio(true);
+          setTimeout(() => {
+            setVacio(false);
+        }, 5000);
         }
     };
 
@@ -111,6 +115,7 @@ const ConsultarTrimestres = () => {
         {guardado &&  <Alerts mensaje="Trimestre registrado exitosamente" tipo="success" icono={<IconoSuccess/>} />}
         {editado &&  <Alerts mensaje="Trimestre editado exitosamente" tipo="info" icono={<IconoInfo/>}  />}
         {eliminado &&  <Alerts mensaje="Trimestre eliminado exitosamente" tipo="danger" icono={<IconoDanger/>}  /> }
+        {vacio && <Alerts mensaje="Por favor, ingresa un nombre de Trimestre" tipo="danger" icono={<IconoText/>}  /> }
             <h1 className="display-4">Crear Trimestre</h1>
             <hr />
                 <button type="button" className="btn btn-primary" style={{ marginLeft: "auto" }}  onClick={abrirModalInsert} >

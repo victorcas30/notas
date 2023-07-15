@@ -361,6 +361,67 @@ const eliminarTrimestre = async(user,token) => {
     }
 }
 
+const getGrados = async(token) => {
+    const headers = {"Authorization":"Bearer "+token};
+    const options = {method:'GET',headers:headers};
+    try{
+        const respuesta = await fetch("http://localhost:8000/api/grados",options);
+        const result = await respuesta.json();
+        return result;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+
+const crearGrado = async(user,token) => {
+    const headers = {"Content-Type":"application/json","Authorization":"Bearer "+token};
+    const options = {
+        method:'POST',
+        headers:headers,
+        body:JSON.stringify(user)
+    }
+    try{
+        const respuesta = await fetch("http://localhost:8000/api/grados",options);
+        const result = await respuesta.json();
+        return result;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+const editarGrado = async(user,token) => {
+    const headers = {"Content-Type":"application/json","Authorization":"Bearer "+token};
+    const options = {
+        method:'PUT',
+        headers:headers,
+        body:JSON.stringify(user)
+    }
+    try{
+        const respuesta = await fetch("http://localhost:8000/api/grados",options);
+        const result = await respuesta.json();
+        return result;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+const eliminarGrado = async(user,token) => {
+    const headers = {"Content-Type":"application/json","Authorization":"Bearer "+token};
+    const options = {
+        method:'PUT',
+        headers:headers,
+        body:JSON.stringify(user)
+    }
+    try{
+        const respuesta = await fetch("http://localhost:8000/api/grados/delete",options);
+        const result = await respuesta.json();
+        return result;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
 export {
     login,
     getUsuarios,
@@ -385,5 +446,9 @@ export {
     getTrimestres,
     crearTrimestre,
     editarTrimestre,
-    eliminarTrimestre
+    eliminarTrimestre,
+    getGrados,
+    crearGrado,
+    editarGrado,
+    eliminarGrado
 }
