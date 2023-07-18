@@ -438,6 +438,18 @@ const crearGradoMaterias = async(user,token) => {
     }
 }
 
+const getGradoMaterias = async(token, idGrado) => {
+    const headers = {"Authorization":"Bearer "+token};
+    const options = {method:'GET', headers: headers};
+    try{
+        const respuesta = await fetch(`http://localhost:8000/api/gradosmaterias/${idGrado}`,options);
+        const result = await respuesta.json();
+        return result;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
 export {
     login,
     getUsuarios,
@@ -467,5 +479,6 @@ export {
     crearGrado,
     editarGrado,
     eliminarGrado,
-    crearGradoMaterias  
+    crearGradoMaterias,
+    getGradoMaterias
 }

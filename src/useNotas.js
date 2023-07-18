@@ -35,6 +35,8 @@ const useNotas = () => {
     const [editado,setEditado] = useState(false);
     const [eliminado,setEliminado] = useState(false);
     const [vacio,setVacio] = useState(false);
+    const [gradoMaterias, setGradoMaterias] = useState([]);
+    const [cambiosGradoMateria, setCambiosGradoMateria] = useState(false);
 
     const fechaAcceso = () => {
         const fechaHoraActual = new Date();
@@ -339,7 +341,9 @@ const useNotas = () => {
         deleteGradoBtn,
         grados,setGrados,
         cambiosGrado,setCambiosGrado,
-        vacio,setVacio
+        vacio,setVacio,
+        gradoMaterias, setGradoMaterias,
+        cambiosGradoMateria, setCambiosGradoMateria
     };
 }
 

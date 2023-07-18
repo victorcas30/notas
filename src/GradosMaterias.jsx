@@ -1,12 +1,12 @@
 import { useContext, useEffect, useState } from "react";
 import notasContext from "./notasContext";
-import { crearGradoMaterias, getGrados, getMaterias } from "./getApi";
+import { crearGradoMaterias, getGrados, getMaterias, getGradoMaterias } from "./getApi";
 import Alerts from "./Alerts";
-import { IconoDanger, IconoInfo, IconoSuccess } from "./iconos";
+import { IconoDanger, IconoInfo, IconoSuccess, IconoX } from "./iconos";
 
 const GradosMaterias = () => {
   const data = useContext(notasContext);
-  const { grados, setGrados, materias, setMaterias, guardado, editado } = data;
+  const { grados, setGrados, materias, setMaterias, guardado, editado, vacio, setVacio, gradoMaterias, setGradoMaterias, cambiosGradoMateria, setCambiosGradoMateria } = data;
   const [gradoSeleccionado, setGradoSeleccionado] = useState('');
   const [materiaSelect, setMateriaSelect] = useState([]);
   const [checkedItems, setCheckedItems] = useState({});
@@ -31,8 +31,34 @@ const GradosMaterias = () => {
     });
   }, []);
 
-  const selectOnChange = e => {
+  useEffect(() => {
+    if (!gradoSeleccionado) {
+      console.log("Debe seleccionar un grado");
+    }
+  
+    const userLogueado = localStorage.getItem("userLogueadoNotas");
+    const userLogin = JSON.parse(userLogueado);
+    const { token } = userLogin;
+    
+    getGradoMaterias(token, gradoSeleccionado).then((allGradoMaterias) => {
+      console.log(allGradoMaterias);
+      const { materias } = allGradoMaterias;
+      setGradoMaterias(materias);
+    });
+  }, [gradoSeleccionado]);
+
+  useEffect(() => {
+    const initialCheckedItems = {};
+    gradoMaterias.forEach((mat) => {
+      const { idmateria, activo } = mat;
+      initialCheckedItems[`flexSwitchCheckDefault-${idmateria}`] = activo === 'true';
+    });
+    setCheckedItems(initialCheckedItems);
+  }, [gradoMaterias]);
+  
+  const selectGrado = e => {
     setGradoSeleccionado(e.target.value);
+    console.log(gradoSeleccionado);
   };
 
   const handleCheckboxChange = (event) => {
@@ -58,10 +84,18 @@ const GradosMaterias = () => {
     //Materia
     const materiasSeleccionadas = [];
     for (const id in checkedItems) {
-      if (checkedItems[id]) {
-        const idmateria = parseInt(id.replace("flexSwitchCheckDefault-", ""));
-        materiasSeleccionadas.push(idmateria);
-      }
+        if (checkedItems[id]) {
+            const idmateria = parseInt(id.replace("flexSwitchCheckDefault-", ""));
+            materiasSeleccionadas.push(idmateria);
+        }
+    }
+    if (!gradoSeleccionado || materiasSeleccionadas.length === 0) {
+        console.log("Debe seleccionar un grado y materias.");
+            setVacio(true);
+                setTimeout(() => {
+                setVacio(false);
+            }, 5000);
+        return;
     }
     setMateriaSelect(materiasSeleccionadas)
     console.log(materiasSeleccionadas);
@@ -81,42 +115,67 @@ const GradosMaterias = () => {
       <div className="container">
         {guardado && <Alerts mensaje="Usuario registrado exitosamente" tipo="success" icono={<IconoSuccess />} />}
         {editado && <Alerts mensaje="Usuario editado exitosamente" tipo="info" icono={<IconoInfo />} />}
+        {vacio && <Alerts mensaje="Debe seleccionar un grado y materias" tipo="danger" icono={<IconoX/>}  /> }
       </div>
       <div className="container">
         <h1 className="display-4">Asignar Materias a Grado</h1>
         <hr />
         <h3 className="display-6">Seleccionar Grado</h3>
-        <select className="form-select" aria-label="Default select example" onChange={selectOnChange}>
-          <option defaultValue>Seleccionar Grado</option>
-          {
-            grados.map(grado => (
-              <option key={grado.idgrado} value={grado.idgrado}>{grado.descripcion}</option>
-            ))
-          }
-        </select>
+
+        <div className="row row-cols-3 g-3">
+            {grados.map((grado) => (
+                <div key={grado.idgrado} className="col">
+                <div className="d-grid gap-2">
+                    <input
+                    type="radio"
+                    className="btn-check"
+                    name="options-outlined"
+                    id={`grado-${grado.idgrado}`}
+                    value={grado.idgrado}
+                    autoComplete="off"
+                    onChange={selectGrado}
+                    />
+                    <label className="btn btn-outline-primary btn-block" htmlFor={`grado-${grado.idgrado}`}>
+                    {grado.descripcion}
+                    </label>
+                </div>
+                </div>
+            ))}
+        </div>
+
         <br />
         <br />
-        <h3 className="display-6">Seleccionar las Materias</h3>
+
+        <h3 className="display-6">Seleccionar las Materiaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaas</h3>
         <button className="btn btn-secondary" onClick={handleSelectAll}>Seleccionar Todos</button>
         <br />
         <br />
         <div className="form-check form-switch">
-          {
-            materias.map((mat) => {
-              const { idmateria, materia } = mat;
-              const isChecked = checkedItems[`flexSwitchCheckDefault-${idmateria}`] || false;
+        {
+  gradoMaterias.map((mat) => {
+    const { idmateria, materia } = mat;
+    const isChecked = checkedItems[`flexSwitchCheckDefault-${idmateria}`] || false;
 
-              return (
-                <div key={idmateria}>
-                  <input className="form-check-input" type="checkbox" role="switch" id={`flexSwitchCheckDefault-${idmateria}`} checked={isChecked} onChange={handleCheckboxChange} />
-                  <label className="form-check-label" htmlFor={`flexSwitchCheckDefault-${idmateria}`}>{materia}</label>
-                </div>
-              );
-            })
-          }
+    return (
+      <div key={idmateria}>
+        <input
+          className="form-check-input"
+          type="checkbox"
+          role="switch"
+          id={`flexSwitchCheckDefault-${idmateria}`}
+          checked={isChecked}
+          onChange={handleCheckboxChange}
+        />
+        <label className="form-check-label" htmlFor={`flexSwitchCheckDefault-${idmateria}`}>
+          {materia}
+        </label>
+      </div>
+    );
+  })
+}
         </div>
         <br />
-        <button className="btn btn-primary" onClick={crearGradoMateriasBtn}>Obtener Materias Seleccionadas</button>
+        <button className="btn btn-primary" style={{ backgroundColor: '#00477A' }} onClick={crearGradoMateriasBtn}>Guardar Materias</button>
       </div>
     </>
   );
