@@ -1,7 +1,7 @@
-import "./ModalDelete.css";
+import "../../ModalDelete.css";
 import { useContext, useEffect, useState } from "react";
-import notasContext from "./notasContext";
-import { getTrimestres } from "./getApi";
+import notasContext from "../../notasContext";
+import { getTrimestres } from "../../getApi";
 
 const ModalInsertTrimestre = ({ isOpen, onClose }) => {
   if (!isOpen) return null;

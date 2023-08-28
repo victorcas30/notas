@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react";
-import notasContext from "./notasContext";
-import { crearGradoMaterias, getGrados, getMaterias, getGradoMaterias } from "./getApi";
-import Alerts from "./Alerts";
-import { IconoDanger, IconoInfo, IconoSuccess, IconoX } from "./iconos";
+import notasContext from "../../notasContext";
+import { crearGradoMaterias, getGrados, getMaterias, getGradoMaterias } from "../../getApi";
+import Alerts from "../../Alerts";
+import { IconoDanger, IconoInfo, IconoSuccess, IconoX } from "../../iconos";
 
 const GradosMaterias = () => {
   const data = useContext(notasContext);
@@ -27,6 +27,7 @@ const GradosMaterias = () => {
     const { token } = userLogin;
     getMaterias(token).then((allMaterias) => {
       const { materias } = allMaterias;
+      console.log(materias)
       setMaterias(materias);
     });
   }, []);
@@ -156,6 +157,7 @@ const GradosMaterias = () => {
         {
           gradoMaterias.map((mat) => {
             const { idmateria, materia } = mat;
+            console.log(mat)
             const isChecked = checkedItems[`flexSwitchCheckDefault-${idmateria}`] || false;
 
             return (

@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from "react";
-import notasContext from "./notasContext";
-import { getUsuarios } from "./getApi";
+import notasContext from "../../notasContext";
+import { getUsuarios } from "../../getApi";
 import ModalUser from "./ModalUser";
-import Alerts from "./Alerts";
-import { IconoDanger, IconoInfo, IconoSuccess } from "./iconos";
+import Alerts from "../../Alerts";
+import { IconoDanger, IconoInfo, IconoSuccess } from "../../iconos";
 
 const ConsultarUser = () => {
 

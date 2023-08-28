@@ -1,10 +1,10 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import notasContext from "./notasContext";
-import { getTrimestres, crearTrimestre, editarTrimestre} from "./getApi";
+import notasContext from "../../notasContext";
+import { getTrimestres, crearTrimestre, editarTrimestre} from "../../getApi";
 import ModalDeleteTrimestre from "./ModalDeleteTrimestre";
 import ModalInsertTrimestre from "./ModalInsertTrimestre";
-import Alerts from "./Alerts";
-import { IconoDanger, IconoInfo, IconoSuccess, IconoText } from "./iconos";
+import Alerts from "../../Alerts";
+import { IconoDanger, IconoInfo, IconoSuccess, IconoText } from "../../iconos";
 
 const ConsultarTrimestres = () => {
     const data = useContext(notasContext);

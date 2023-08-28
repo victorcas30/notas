@@ -1,18 +1,18 @@
-import "./ModalDelete.css";
+import "../../ModalDelete.css";
 import { useContext, useEffect, useState } from "react";
-import notasContext from "./notasContext";
+import notasContext from "../../notasContext";
 
-const ModalDeleteTrimestre = ({ isOpen, onClose, trimestreEliminar }) => {
+const ModalDeleteGrados = ({ isOpen, onClose, gradoEliminar }) => {
   if (!isOpen) return null;
   const data = useContext(notasContext);
-  const {deleteTrimestreBtn } = data;
+  const {deleteGradoBtn } = data;
 
   return (
     <div className="modal-overlay">
       <div className="modal-content">
-        <h3>¿Desea eliminar este Trimestre definitivamente?</h3>
+        <h3>¿Desea eliminar este grado definitivamente?</h3>
         <div className="modal-buttons">
-          <button className="modal-button accept-button" onClick={() => deleteTrimestreBtn(trimestreEliminar,onClose)} >
+          <button className="modal-button accept-button" onClick={() => deleteGradoBtn(gradoEliminar,onClose)} >
             Aceptar
           </button>
           <button className="modal-button cancel-button" onClick={onClose}>
@@ -24,4 +24,4 @@ const ModalDeleteTrimestre = ({ isOpen, onClose, trimestreEliminar }) => {
   );
 };
 
-export default ModalDeleteTrimestre;
+export default ModalDeleteGrados;

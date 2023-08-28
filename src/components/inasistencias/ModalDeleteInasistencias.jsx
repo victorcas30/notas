@@ -1,6 +1,6 @@
-import "./ModalDelete.css";
+import "../../ModalDelete.css";
 import { useContext, useEffect, useState } from "react";
-import notasContext from "./notasContext";
+import notasContext from "../../notasContext";
 
 const ModalDeleteInasistencias = ({ isOpen, onClose, inasistenciaEliminar }) => {
   if (!isOpen) return null;

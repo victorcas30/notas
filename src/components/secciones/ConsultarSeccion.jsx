@@ -1,9 +1,9 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import notasContext from "./notasContext";
-import { crearSeccion, getSecciones, editarSeccion } from "./getApi";
+import notasContext from "../../notasContext";
+import { crearSeccion, getSecciones, editarSeccion } from "../../getApi";
 import ModalDeleteSecciones from "./ModalDeleteSecciones";
-import Alerts from "./Alerts";
-import { IconoSuccess, IconoInfo, IconoDanger, IconoText } from "./iconos";
+import Alerts from "../../Alerts";
+import { IconoSuccess, IconoInfo, IconoDanger, IconoText } from "../../iconos";
 
 const ConsultarSeccion = () => {
   const data = useContext(notasContext);

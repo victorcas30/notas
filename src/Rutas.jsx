@@ -2,17 +2,17 @@ import { useContext } from "react";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Menu from "./Menu";
 import Login from "./Login";
-import ConsultarUser from "./ConsultarUser";
+import ConsultarUser from "./components/user/ConsultarUser";
 import RutasProtegidas from "./RutasProtegidas";
 import notasContext from "./notasContext";
 import ConsultarAlumnos from "./components/alumnos/ConsultarAlumnos";
 import ConsultarMaterias from "./components/materias/ConsultarMaterias";
-import ConsultarValores from "./ConsultarValores";
-import ConsultarInasistencias from "./ConsultarInasistencias";
-import ConsultarTrimestres from "./ConsultarTrimestres";
-import ConsultarGrado from "./ConsultarGrado";
-import GradosMaterias from "./GradosMaterias";
-import ConsultarSeccion from "./ConsultarSeccion";
+import ConsultarValores from "./components/valores/ConsultarValores";
+import ConsultarInasistencias from "./components/inasistencias/ConsultarInasistencias";
+import ConsultarTrimestres from "./components/trimestres/ConsultarTrimestres";
+import ConsultarGrado from "./components/grados/ConsultarGrado";
+import GradosMaterias from "./components/gradosmaterias/GradosMaterias";
+import ConsultarSeccion from "./components/secciones/ConsultarSeccion";
 
 const Rutas = () => {
     const data = useContext(notasContext);

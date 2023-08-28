@@ -1,9 +1,9 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import notasContext from "./notasContext";
-import { crearInasistencia, getInasistencias, editarInasistencia } from "./getApi";
+import notasContext from "../../notasContext";
+import { crearInasistencia, getInasistencias, editarInasistencia } from "../../getApi";
 import ModalDeleteInasistencias from "./ModalDeleteInasistencias";
-import Alerts from "./Alerts";
-import { IconoDanger, IconoInfo, IconoSuccess, IconoText } from "./iconos";
+import Alerts from "../../Alerts";
+import { IconoDanger, IconoInfo, IconoSuccess, IconoText } from "../../iconos";
 
 const ConsultarInasistencias = () => {
     const data = useContext(notasContext);
