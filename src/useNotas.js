@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { crearUsuario, editarUsuario, crearAlumno, editarAlum, eliminarAlumno, eliminarMateria, eliminarValor, eliminarInasistencia, eliminarTrimestre, getTrimestres, crearTrimestre, eliminarGrado } from "./getApi";
+import { crearUsuario, editarUsuario, crearAlumno, editarAlum, eliminarAlumno, eliminarMateria, eliminarValor, eliminarInasistencia, eliminarTrimestre, getTrimestres, crearTrimestre, eliminarGrado, eliminarSeccion } from "./getApi";
 
 const userLoginDefault = {
     "idusuario": 0,
@@ -31,6 +31,8 @@ const useNotas = () => {
     const [trimestreYear,setTrimestreYear] = useState(0);
     const [grados, setGrados] = useState([]);
     const [cambiosGrado, setCambiosGrado] = useState(false);
+    const [secciones, setSecciones] = useState([]);
+    const [cambiosSeccion, setCambiosSeccion] = useState(false);
     const [guardado,setGuardado] = useState(false);
     const [editado,setEditado] = useState(false);
     const [eliminado,setEliminado] = useState(false);
@@ -284,6 +286,22 @@ const useNotas = () => {
         setTimeout(() => {
             setEliminado(false);
         }, 5000);
+    
+    }
+    const deleteSeccionBtn = (id,onClose) => {
+        const seccionDelete = {"idseccion":id};
+        const userLogueado = localStorage.getItem("userLogueadoNotas");
+        const userLogin = JSON.parse(userLogueado);
+        const { token } = userLogin;
+        eliminarSeccion(seccionDelete,token).then(respuesta=>{
+            console.log(JSON.stringify(respuesta));
+        });
+        setCambiosSeccion(true);
+        onClose();
+        setEliminado(true);
+        setTimeout(() => {
+            setEliminado(false);
+        }, 5000);
     }
 
     return {
@@ -343,7 +361,10 @@ const useNotas = () => {
         cambiosGrado,setCambiosGrado,
         vacio,setVacio,
         gradoMaterias, setGradoMaterias,
-        cambiosGradoMateria, setCambiosGradoMateria
+        cambiosGradoMateria, setCambiosGradoMateria,
+        secciones, setSecciones,
+        cambiosSeccion, setCambiosSeccion,
+        deleteSeccionBtn
     };
 }
 

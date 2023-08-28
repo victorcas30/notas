@@ -6,7 +6,7 @@ import { IconoDanger, IconoInfo, IconoSuccess, IconoX } from "./iconos";
 
 const GradosMaterias = () => {
   const data = useContext(notasContext);
-  const { grados, setGrados, materias, setMaterias, guardado, editado, vacio, setVacio, gradoMaterias, setGradoMaterias, cambiosGradoMateria, setCambiosGradoMateria } = data;
+  const { grados, setGrados, materias, setMaterias, guardado, editado, vacio, setVacio, gradoMaterias, setGradoMaterias, cambiosGradoMateria, setCambiosGradoMateria, setGuardado } = data;
   const [gradoSeleccionado, setGradoSeleccionado] = useState('');
   const [materiaSelect, setMateriaSelect] = useState([]);
   const [checkedItems, setCheckedItems] = useState({});
@@ -98,8 +98,6 @@ const GradosMaterias = () => {
         return;
     }
     setMateriaSelect(materiasSeleccionadas)
-    console.log(materiasSeleccionadas);
-
     const dataGradoMateria = { idgrado: gradoSeleccionado, materias: materiasSeleccionadas };
     console.log(dataGradoMateria);
     const userLogueado = localStorage.getItem("userLogueadoNotas");
@@ -107,13 +105,17 @@ const GradosMaterias = () => {
     const { token } = userLogin;
     crearGradoMaterias(dataGradoMateria, token).then((respuesta) => {
       console.log(JSON.stringify(respuesta));
+      setGuardado(true);
+                setTimeout(() => {
+                setGuardado(false);
+            }, 5000);
     });
   };
 
   return (
     <>
       <div className="container">
-        {guardado && <Alerts mensaje="Usuario registrado exitosamente" tipo="success" icono={<IconoSuccess />} />}
+        {guardado && <Alerts mensaje="Materias registradas exitosamente" tipo="success" icono={<IconoSuccess />} />}
         {editado && <Alerts mensaje="Usuario editado exitosamente" tipo="info" icono={<IconoInfo />} />}
         {vacio && <Alerts mensaje="Debe seleccionar un grado y materias" tipo="danger" icono={<IconoX/>}  /> }
       </div>
@@ -146,33 +148,33 @@ const GradosMaterias = () => {
         <br />
         <br />
 
-        <h3 className="display-6">Seleccionar las Materiaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaas</h3>
+        <h3 className="display-6">Seleccionar las Materiaas</h3>
         <button className="btn btn-secondary" onClick={handleSelectAll}>Seleccionar Todos</button>
         <br />
         <br />
         <div className="form-check form-switch">
         {
-  gradoMaterias.map((mat) => {
-    const { idmateria, materia } = mat;
-    const isChecked = checkedItems[`flexSwitchCheckDefault-${idmateria}`] || false;
+          gradoMaterias.map((mat) => {
+            const { idmateria, materia } = mat;
+            const isChecked = checkedItems[`flexSwitchCheckDefault-${idmateria}`] || false;
 
-    return (
-      <div key={idmateria}>
-        <input
-          className="form-check-input"
-          type="checkbox"
-          role="switch"
-          id={`flexSwitchCheckDefault-${idmateria}`}
-          checked={isChecked}
-          onChange={handleCheckboxChange}
-        />
-        <label className="form-check-label" htmlFor={`flexSwitchCheckDefault-${idmateria}`}>
-          {materia}
-        </label>
-      </div>
-    );
-  })
-}
+            return (
+              <div key={idmateria}>
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id={`flexSwitchCheckDefault-${idmateria}`}
+                  checked={isChecked}
+                  onChange={handleCheckboxChange}
+                />
+                <label className="form-check-label" htmlFor={`flexSwitchCheckDefault-${idmateria}`}>
+                  {materia}
+                </label>
+              </div>
+            );
+          })
+        }
         </div>
         <br />
         <button className="btn btn-primary" style={{ backgroundColor: '#00477A' }} onClick={crearGradoMateriasBtn}>Guardar Materias</button>

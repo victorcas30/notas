@@ -45,6 +45,9 @@ const Menu = () =>{
                     <li className="nav-item">
                     <NavLink className={({isActive}) => isActive ? "nav-link isActive" : "nav-link"} to="/gradosmaterias">Grados Materias</NavLink>
                     </li>
+                    <li className="nav-item">
+                    <NavLink className={({isActive}) => isActive ? "nav-link isActive" : "nav-link"} to="/consultarseccion">Secciones</NavLink>
+                    </li>
                 </ul>
                 </div>
                 { isLogged &&(

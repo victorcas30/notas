@@ -12,6 +12,7 @@ import ConsultarInasistencias from "./ConsultarInasistencias";
 import ConsultarTrimestres from "./ConsultarTrimestres";
 import ConsultarGrado from "./ConsultarGrado";
 import GradosMaterias from "./GradosMaterias";
+import ConsultarSeccion from "./ConsultarSeccion";
 
 const Rutas = () => {
     const data = useContext(notasContext);
@@ -32,6 +33,7 @@ const Rutas = () => {
                 <Route path="/consultartrimestres" element={ <ConsultarTrimestres/> } />
                 <Route path="/consultargrado" element={ <ConsultarGrado/> } />
                 <Route path="/gradosmaterias" element={ <GradosMaterias/> } />
+                <Route path="/consultarseccion" element={ <ConsultarSeccion/> } />
             </Route>
         </Routes>
         </BrowserRouter>

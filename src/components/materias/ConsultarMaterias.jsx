@@ -1,9 +1,9 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import notasContext from "./notasContext";
-import { crearMateria, getMaterias, editarMat } from "./getApi";
+import notasContext from "../../notasContext";
+import { crearMateria, getMaterias, editarMat } from "../../getApi";
 import ModalDeleteMateria from "./ModalDeleteMaterias";
-import Alerts from "./Alerts";
-import { IconoDanger, IconoInfo, IconoSuccess, IconoText } from "./iconos";
+import Alerts from "../../Alerts";
+import { IconoDanger, IconoInfo, IconoSuccess, IconoText } from "../../iconos";
 
 const ConsultarMaterias = () => {
     const data = useContext(notasContext);

@@ -1,18 +1,18 @@
 import "./ModalDelete.css";
 import { useContext, useEffect, useState } from "react";
-import notasContext from "./notasContext";
+import notasContext from "../../notasContext";
 
-const ModalDeleteMateria = ({ isOpen, onClose, materiaEliminar }) => {
+const ModalDeleteAlumno = ({ isOpen, onClose, alumnoEliminar }) => {
   if (!isOpen) return null;
   const data = useContext(notasContext);
-  const {deleteMateriaBtn } = data;
+  const {eliminarAlumnoBtn } = data;
 
   return (
     <div className="modal-overlay">
       <div className="modal-content">
-        <h3>¿Desea eliminar este Materia definitivamente?</h3>
+        <h3>¿Desea eliminar este Alumno definitivamente?</h3>
         <div className="modal-buttons">
-          <button className="modal-button accept-button" onClick={() => deleteMateriaBtn(materiaEliminar,onClose)} >
+          <button className="modal-button accept-button" onClick={() => eliminarAlumnoBtn(alumnoEliminar,onClose)} >
             Aceptar
           </button>
           <button className="modal-button cancel-button" onClick={onClose}>
@@ -24,4 +24,4 @@ const ModalDeleteMateria = ({ isOpen, onClose, materiaEliminar }) => {
   );
 };
 
-export default ModalDeleteMateria;
+export default ModalDeleteAlumno;

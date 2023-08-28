@@ -450,6 +450,66 @@ const getGradoMaterias = async(token, idGrado) => {
     }
 }
 
+const getSecciones = async (token) => {
+    const headers = { "Authorization": "Bearer " + token };
+    const options = { method: 'GET', headers: headers };
+    try {
+      const respuesta = await fetch("http://localhost:8000/api/secciones", options);
+      const result = await respuesta.json();
+      return result;
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+  
+  const crearSeccion = async (user, token) => {
+    const headers = { "Content-Type": "application/json", "Authorization": "Bearer " + token };
+    const options = {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify(user)
+    }
+    try {
+      const respuesta = await fetch("http://localhost:8000/api/secciones", options);
+      const result = await respuesta.json();
+      return result;
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+  
+  const editarSeccion = async (user, token) => {
+    const headers = { "Content-Type": "application/json", "Authorization": "Bearer " + token };
+    const options = {
+      method: 'PUT',
+      headers: headers,
+      body: JSON.stringify(user)
+    }
+    try {
+      const respuesta = await fetch("http://localhost:8000/api/secciones", options);
+      const result = await respuesta.json();
+      return result;
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+  
+  const eliminarSeccion = async (user, token) => {
+    const headers = { "Content-Type": "application/json", "Authorization": "Bearer " + token };
+    const options = {
+      method: 'PUT',
+      headers: headers,
+      body: JSON.stringify(user)
+    }
+    try {
+      const respuesta = await fetch("http://localhost:8000/api/secciones/delete", options);
+      const result = await respuesta.json();
+      return result;
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
 export {
     login,
     getUsuarios,
@@ -480,5 +540,9 @@ export {
     editarGrado,
     eliminarGrado,
     crearGradoMaterias,
-    getGradoMaterias
+    getGradoMaterias,
+    getSecciones, 
+    crearSeccion, 
+    editarSeccion, 
+    eliminarSeccion
 }
